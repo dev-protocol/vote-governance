@@ -1,36 +1,54 @@
-import { ethers, providers, ContractFactory } from 'ethers'
-import { config, DotenvParseOutput } from 'dotenv'
-import { Class } from 'type-fest'
-import Provider = providers.Provider
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-export type ContractDeployer = (
-	_wallet: ethers.Wallet,
-	_factory: Class<ContractFactory>,
-	_envs: DotenvParseOutput
-) => Promise<void>
+import { ethers } from 'ethers'
+import * as VoteEmitter from '../build/VoteEmitter.json'
+import * as Vote from '../build/Vote.json'
+import { ethGasStationFetcher } from '@devprotocol/util-ts'
+require('dotenv').config()
 
-const getDeployer = (
-	deployMnemonic?: string,
-	deployNodeUrl = 'http://127.0.0.1:8545'
-): ethers.Wallet => {
-	if (!deployMnemonic) {
-		throw new Error(
-			`Error: No DEPLOY_MNEMONIC env var set. Please add it to .<environment>.env file it and try again. See .env.example for more info.\n`
-		)
-	}
+const deploy = async (): Promise<void> => {
+	const { NETWORK, INFURA_ID, MNEMONIC, ETHGASSTATION_TOKEN, BLOCK } = process.env
+	console.log(`network:${NETWORK}`)
+	console.log(`infura id:${INFURA_ID}`)
+	console.log(`mnemonic:${MNEMONIC}`)
+	console.log(`ethgasstation token:${ETHGASSTATION_TOKEN}`)
+	console.log(`block:${BLOCK}`)
+	const provider = ethers.getDefaultProvider(NETWORK, {
+		infura: INFURA_ID,
+	})
+	const wallet = ethers.Wallet.fromMnemonic(MNEMONIC!).connect(provider)
 
-	// Connect provider
-	const provider: Provider = new ethers.providers.JsonRpcProvider(deployNodeUrl)
+	const gasPrice = ethGasStationFetcher(ETHGASSTATION_TOKEN!)
 
-	return ethers.Wallet.fromMnemonic(deployMnemonic).connect(provider)
+	const voteEmitterFactory = new ethers.ContractFactory(
+		VoteEmitter.abi,
+		VoteEmitter.bytecode,
+		wallet
+	)
+
+	const emitterContract = await voteEmitterFactory.deploy({
+		gasLimit: 6721975,
+		gasPrice: await gasPrice(),
+	})
+
+	await emitterContract.deployed()
+
+	console.log('vote emitter address:' + emitterContract.address)
+
+	const voteFactory = new ethers.ContractFactory(
+		Vote.abi,
+		Vote.bytecode,
+		wallet,
+	)
+	const voteContract = await voteFactory.deploy(emitterContract.address, Number(BLOCK), {
+		gasLimit: 6721975,
+		gasPrice: await gasPrice(),
+	})
+	await voteContract.deployed()
+	console.log('vote address:' + voteContract.address)
 }
 
-export const deploy = async (deployer: ContractDeployer): Promise<void> => {
-	const envs = config().parsed ?? {}
-	const mnemonic = envs.DEPLOY_MNEMONIC
-	const node = envs.DEPLOY_NODE_URL
-	const wallet = getDeployer(mnemonic, node)
-
-	console.log(`Deploying to network [${node ?? 'local'}]`)
-	await deployer(wallet, ContractFactory, envs)
-}
+void deploy()
