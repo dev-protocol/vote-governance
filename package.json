@@ -14,7 +14,8 @@
 		"lint:format": "prettier --write '**/*.{sol,ts,json,md,yml}'",
 		"build": "tsc -p tsconfig.build.json",
 		"prebuild": "yarn generate",
-		"clean": "rimraf scripts/**/*.js build"
+		"clean": "rimraf scripts/**/*.js build",
+		"prepare": "husky install"
 	},
 	"author": "",
 	"license": "MPL-2.0",
@@ -39,11 +40,6 @@
 		"rimraf": "3.0.2",
 		"ts-node": "9.1.1",
 		"typescript": "4.2.3"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "yarn lint"
-		}
 	},
 	"dependencies": {
 		"@devprotocol/util-ts": "^2.2.1",

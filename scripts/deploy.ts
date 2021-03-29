@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -10,7 +9,13 @@ import { ethGasStationFetcher } from '@devprotocol/util-ts'
 require('dotenv').config()
 
 const deploy = async (): Promise<void> => {
-	const { NETWORK, INFURA_ID, MNEMONIC, ETHGASSTATION_TOKEN, BLOCK } = process.env
+	const {
+		NETWORK,
+		INFURA_ID,
+		MNEMONIC,
+		ETHGASSTATION_TOKEN,
+		BLOCK,
+	} = process.env
 	console.log(`network:${NETWORK}`)
 	console.log(`infura id:${INFURA_ID}`)
 	console.log(`mnemonic:${MNEMONIC}`)
@@ -41,12 +46,16 @@ const deploy = async (): Promise<void> => {
 	const voteFactory = new ethers.ContractFactory(
 		Vote.abi,
 		Vote.bytecode,
-		wallet,
+		wallet
 	)
-	const voteContract = await voteFactory.deploy(emitterContract.address, Number(BLOCK), {
-		gasLimit: 6721975,
-		gasPrice: await gasPrice(),
-	})
+	const voteContract = await voteFactory.deploy(
+		emitterContract.address,
+		Number(BLOCK),
+		{
+			gasLimit: 6721975,
+			gasPrice: await gasPrice(),
+		}
+	)
 	await voteContract.deployed()
 	console.log('vote address:' + voteContract.address)
 }
