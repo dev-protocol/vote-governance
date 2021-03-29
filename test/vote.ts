@@ -1,4 +1,7 @@
 /* eslint-disable new-cap */
+/* eslint-disable functional/no-expression-statement */
+/* eslint-disable functional/functional-parameters */
+
 import { expect, use } from 'chai'
 import { describe } from 'mocha'
 import { Contract, ethers, Wallet } from 'ethers'
@@ -12,7 +15,7 @@ use(solidity)
 describe('Vote', () => {
 	const VOTING_BLOCK = 100
 	const init = async (): Promise<
-		[Contract, Contract, MockProvider, number, Wallet[]]
+		readonly [Contract, Contract, MockProvider, number, readonly Wallet[]]
 	> => {
 		const provider = new MockProvider()
 		const wallets = provider.getWallets()

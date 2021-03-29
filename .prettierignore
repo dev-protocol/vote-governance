@@ -1,2 +1,6 @@
 build
 contracts/modules
+node_modules
+dist
+cjs
+esm

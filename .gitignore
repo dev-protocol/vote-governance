@@ -64,6 +64,7 @@ typings/
 # output of typechain
 build
 types
+dist
 
 # output of tsc
 *.js

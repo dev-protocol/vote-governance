@@ -3,7 +3,7 @@ pragma solidity 0.7.6;
 
 interface IVoteEmitter {
 	event Vote(
-		address dispatcher,
+		address indexed dispatcher,
 		address voter,
 		bytes32[] options,
 		uint8[] percentiles

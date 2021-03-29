@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable functional/no-expression-statement */
+/* eslint-disable functional/functional-parameters */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import { ethers } from 'ethers'

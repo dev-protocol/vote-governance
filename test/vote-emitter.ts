@@ -1,4 +1,7 @@
 /* eslint-disable new-cap */
+/* eslint-disable functional/no-expression-statement */
+/* eslint-disable functional/functional-parameters */
+
 import { expect, use } from 'chai'
 import { describe } from 'mocha'
 import { Contract, ethers, Wallet } from 'ethers'
@@ -8,7 +11,7 @@ import VoteEmitter from '../build/VoteEmitter.json'
 use(solidity)
 
 describe('VoteEmitter', () => {
-	const init = async (): Promise<[Contract, Wallet[]]> => {
+	const init = async (): Promise<readonly [Contract, readonly Wallet[]]> => {
 		const provider = new MockProvider()
 		const wallets = provider.getWallets()
 		const voteEmitter = await deployContract(wallets[0], VoteEmitter)
