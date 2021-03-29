@@ -1,0 +1,23 @@
+{
+	"env": {
+		"mocha": true
+	},
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"project": "./tsconfig.json",
+		"tsconfigRootDir": "."
+	},
+	"plugins": ["@typescript-eslint"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended",
+		"xo",
+		"xo-typescript",
+		"prettier",
+		"prettier/@typescript-eslint"
+	],
+	"rules": {
+		"@typescript-eslint/prefer-readonly-parameter-types": "warn"
+	}
+}
