@@ -1,3 +1,3 @@
-import { getRelationVoteEvent } from './vote'
+import { getRelationVoteEvent, getVoteContract, getAttributes } from './vote'
 
-export { getRelationVoteEvent }
+export { getRelationVoteEvent, getVoteContract, getAttributes }

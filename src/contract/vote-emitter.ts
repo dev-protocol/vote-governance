@@ -13,12 +13,12 @@ const getVoteEmitterContract = (
 }
 
 export const getVoteEvent = async (
-	voteAddress: string,
-	emitterAddress: string,
+	voteInstance: Contract,
 	provider: BaseProvider
 ): Promise<readonly Event[]> => {
-	const contract = getVoteEmitterContract(emitterAddress, provider)
-	const filterVote = contract.filters.Vote(voteAddress)
+	const voteEmitAddress = await voteInstance.voteEmitter()
+	const contract = getVoteEmitterContract(voteEmitAddress, provider)
+	const filterVote = contract.filters.Vote(voteInstance.address)
 	const events = await contract.queryFilter(filterVote)
 	return events
 }

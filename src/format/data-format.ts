@@ -1,5 +1,6 @@
 import { Event, ethers } from 'ethers'
 import { Result } from '@ethersproject/abi'
+import { VoteData } from './../types'
 
 export const formatVoteEventData = (
 	events: readonly Event[]
