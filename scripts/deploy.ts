@@ -17,12 +17,22 @@ const deploy = async (): Promise<void> => {
 		MNEMONIC,
 		ETHGASSTATION_TOKEN,
 		BLOCK,
+		SUBJECT,
+		BODY,
+		OPTIONS,
+		BODY_MIME_TYPE,
+		OPTION_MIME_TYPE,
 	} = process.env
 	console.log(`network:${NETWORK}`)
 	console.log(`infura id:${INFURA_ID}`)
 	console.log(`mnemonic:${MNEMONIC}`)
 	console.log(`ethgasstation token:${ETHGASSTATION_TOKEN}`)
 	console.log(`block:${BLOCK}`)
+	console.log(`subject:${SUBJECT}`)
+	console.log(`subject:${BODY}`)
+	console.log(`options:${OPTIONS}`)
+	console.log(`body mime type:${BODY_MIME_TYPE}`)
+	console.log(`option mime type:${OPTION_MIME_TYPE}`)
 	const provider = ethers.getDefaultProvider(NETWORK, {
 		infura: INFURA_ID,
 	})
@@ -51,6 +61,11 @@ const deploy = async (): Promise<void> => {
 		wallet
 	)
 	const voteContract = await voteFactory.deploy(
+		SUBJECT,
+		BODY,
+		JSON.parse(OPTIONS!),
+		BODY_MIME_TYPE,
+		OPTION_MIME_TYPE,
 		emitterContract.address,
 		Number(BLOCK),
 		{
