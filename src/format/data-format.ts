@@ -6,7 +6,12 @@ export const formatVoteEventData = (
 ): readonly VoteData[] => {
 	const formattedData = events.map((event) => {
 		return typeof event.args === 'undefined'
-			? ({} as VoteData)
+			? ({
+					isValid: false,
+					voter: '',
+					options: [],
+					percentiles: [],
+			  } as VoteData)
 			: format(event.args)
 	})
 	return formattedData
@@ -19,14 +24,9 @@ const format = (args: Result): VoteData => {
 	})
 	const percentiles = args[3] as readonly number[]
 	return {
+		isValid: true,
 		voter: args[1],
 		options: parsedOptions,
 		percentiles: percentiles,
 	} as VoteData
-}
-
-type VoteData = {
-	readonly voter: string
-	readonly options: readonly string[]
-	readonly percentiles: readonly number[]
 }
