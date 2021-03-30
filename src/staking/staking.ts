@@ -1,16 +1,19 @@
-const getAllStakingValue = (
+import { Contract, BigNumber } from 'ethers'
+import {getDevTransferEvent} from './../contract'
+import {sumTransferEventValue} from './../data-process'
+import {filteringPropertyAddressTransfer, TRANSFER_EVENT_INDEX_FROM, TRANSFER_EVENT_INDEX_TO} from './../filtering'
+
+export const getAllStakingValue = async (
+	devInstance: Contract,
+	propertyGroupInstance: Contract,
 	user: string,
 	toBlock: number
-): readonly VoteData[] => {
-	const formattedData = events.map((event) => {
-		return typeof event.args === 'undefined'
-			? ({
-					isValid: false,
-					voter: '',
-					options: [],
-					percentiles: [],
-			  } as VoteData)
-			: format(event.args)
-	})
-	return formattedData
+): Promise<BigNumber> => {
+	const fromUserEvent = await getDevTransferEvent(devInstance, user, null, toBlock)
+	const ToUserEvent = await getDevTransferEvent(devInstance, null, user, toBlock)
+	const filteringFromUserEvent = await filteringPropertyAddressTransfer(fromUserEvent, TRANSFER_EVENT_INDEX_TO, propertyGroupInstance)
+	const filteringToUserEvent = await filteringPropertyAddressTransfer(ToUserEvent, TRANSFER_EVENT_INDEX_FROM, propertyGroupInstance)
+	const stakingvalue = sumTransferEventValue(filteringFromUserEvent)
+	const stakingReleasevalue = sumTransferEventValue(filteringToUserEvent)
+	return stakingvalue.sub(stakingReleasevalue)
 }

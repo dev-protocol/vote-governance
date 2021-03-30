@@ -1,3 +1,3 @@
-import { filteringValidData } from './filtering'
+import { filteringValidData, TRANSFER_EVENT_INDEX_FROM, TRANSFER_EVENT_INDEX_TO, filteringPropertyAddressTransfer } from './filtering'
 
-export { filteringValidData }
+export { filteringValidData, TRANSFER_EVENT_INDEX_FROM, TRANSFER_EVENT_INDEX_TO, filteringPropertyAddressTransfer }

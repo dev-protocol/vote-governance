@@ -1,5 +1,5 @@
-// import { getVotes } from './votes'
+import { getVotes } from './votes'
 
-// export default {
-// 	getVotes,
-// }
+export default {
+	getVotes,
+}

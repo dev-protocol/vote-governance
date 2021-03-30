@@ -7,10 +7,13 @@ export const getVoteContract = (
 	address: string,
 	provider: BaseProvider
 ): Contract => {
+	// TODO いらないものを削除する
+	// Attributesの定義がなくてもデータは取得できるのだろうか。。。あかん気がするけど。
 	const abi = [
 		'function vote(bytes32[] memory options, uint8[] memory percentiles) external',
 		'function voteEmitter() public view returns (address)',
 		'function period() public view returns (uint256)',
+		'function attributes() external view returns (Attributes memory)',
 	]
 	return new Contract(address, abi, provider)
 }
@@ -23,7 +26,7 @@ export const getRelationVoteEvent = async (
 	return voteAllLogs
 }
 
-export const getAttributes = async (
+export const getVoteAttributes = async (
 	voteInstance: Contract
 ): Promise<VoteAttributes> => {
 	const tmp = await voteInstance.attributes()

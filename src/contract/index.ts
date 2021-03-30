@@ -1,3 +1,5 @@
-import { getRelationVoteEvent, getVoteContract, getAttributes } from './vote'
+import { getRelationVoteEvent, getVoteContract, getVoteAttributes } from './vote'
+import { getDevContract, getDevTransferEvent } from './dev'
+import { getPropertyGroupContract } from './property-group'
 
-export { getRelationVoteEvent, getVoteContract, getAttributes }
+export { getRelationVoteEvent, getVoteContract, getVoteAttributes, getDevContract,getDevTransferEvent, getPropertyGroupContract}

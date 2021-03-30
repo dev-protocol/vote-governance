@@ -1,24 +1,24 @@
 import { Contract, Event } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 
-const getVoteEmitterContract = (
-	address: string,
+export const getDevContract = async (
 	provider: BaseProvider
-): Contract => {
+): Promise<Contract> => {
+	const network = await provider.getNetwork()
+	const address = network.name === 'ropsten' ? '0x5312f4968901Ec9d4fc43d2b0e437041614B14A2' : '0x5cAf454Ba92e6F2c929DF14667Ee360eD9fD5b26'
 	const abi = [
-		'function dispatch(address voter,bytes32[] memory options,uint8[] memory percentiles) external',
-		'event Vote(address dispatcher,address voter,bytes32[] options,uint8[] percentiles)',
+		'event Transfer(address indexed from, address indexed to, uint256 value)',
 	]
 	return new Contract(address, abi, provider)
 }
 
-export const getVoteEvent = async (
-	voteAddress: string,
-	emitterAddress: string,
-	provider: BaseProvider
+export const getDevTransferEvent = async (
+	devInstance: Contract,
+	fromAddress: string | null,
+	toAddress: string | null,
+	toBlock: number
 ): Promise<readonly Event[]> => {
-	const contract = getVoteEmitterContract(emitterAddress, provider)
-	const filterVote = contract.filters.Vote(voteAddress)
-	const events = await contract.queryFilter(filterVote)
+	const filterVote = devInstance.filters.Transfer(fromAddress, toAddress)
+	const events = await devInstance.queryFilter(filterVote, undefined,  toBlock)
 	return events
 }
