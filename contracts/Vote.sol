@@ -7,24 +7,24 @@ import {IVoteEmitter} from "contracts/interface/IVoteEmitter.sol";
 contract Vote {
 	struct Attributes {
 		string subject;
-		bytes32 body;
+		string body;
 		uint256 period;
-		bytes32[] options;
+		string[] options;
 		string bodyMimeType;
 		string optionsMimeType;
 	}
 	address public voteEmitter;
 	string public subject;
-	bytes32 public body;
+	string public body;
 	uint256 public period;
-	bytes32[] public options;
+	string[] public options;
 	string public bodyMimeType;
 	string public optionsMimeType;
 
 	constructor(
 		string memory _subject,
-		bytes32 _body,
-		bytes32[] memory _options,
+		string memory _body,
+		string[] memory _options,
 		string memory _bodyMimeType,
 		string memory _optionsMimeType,
 		address _voteEmitter,
@@ -51,7 +51,7 @@ contract Vote {
 			);
 	}
 
-	function vote(bytes32[] memory _options, uint8[] memory percentiles)
+	function vote(uint8[] memory _options, uint8[] memory percentiles)
 		external
 	{
 		require(block.number < period, "over the period");
