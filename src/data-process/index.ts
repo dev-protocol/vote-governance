@@ -1,3 +1,3 @@
 import { sumTransferEventValue } from './calculate'
 
-export { sumTransferEventValue}
+export { sumTransferEventValue }

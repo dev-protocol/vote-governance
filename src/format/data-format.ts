@@ -9,36 +9,46 @@ export const formatVoteEventData = async (
 	propertyGroupInstance: Contract,
 	toBlock: number
 ): Promise<readonly VoteData[]> => {
-	const formattedData = await Promise.all(events.map(async (event) => {
-		return typeof event.args === 'undefined'
-			? ({
-					isValid: false,
-					voter: '',
-					options: [],
-					optionsRaw: [],
-					percentiles: [],
-					value: BigNumber.from(0),
-			  } as VoteData)
-			: await format(event.args, devInstance, propertyGroupInstance, toBlock)
-	}))
+	const formattedData = await Promise.all(
+		events.map(async (event) => {
+			return typeof event.args === 'undefined'
+				? ({
+						isValid: false,
+						voter: '',
+						options: [],
+						optionsRaw: [],
+						percentiles: [],
+						value: BigNumber.from(0),
+				  } as VoteData)
+				: await format(event.args, devInstance, propertyGroupInstance, toBlock)
+		})
+	)
 	return formattedData
 }
 
-const format = async (args: Result,	devInstance: Contract,
+const format = async (
+	args: Result,
+	devInstance: Contract,
 	propertyGroupInstance: Contract,
-	toBlock: number): Promise<VoteData> => {
+	toBlock: number
+): Promise<VoteData> => {
 	const byte32Options = args[2] as readonly string[]
 	const parsedOptions = byte32Options.map((option) => {
 		return ethers.utils.parseBytes32String(option)
 	})
 	const percentiles = args[3] as readonly number[]
-	const stakingvalue = await getAllStakingValue(devInstance, propertyGroupInstance, args[1], toBlock)
+	const stakingvalue = await getAllStakingValue(
+		devInstance,
+		propertyGroupInstance,
+		args[1],
+		toBlock
+	)
 	return {
 		isValid: true,
 		voter: args[1],
 		options: parsedOptions,
 		optionsRaw: byte32Options,
 		percentiles: percentiles,
-		value: stakingvalue
+		value: stakingvalue,
 	} as VoteData
 }

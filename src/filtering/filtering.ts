@@ -62,9 +62,18 @@ export const TRANSFER_EVENT_INDEX_TO = 1
 
 export type TransferEventIndex = 0 | 1
 
-export const filteringPropertyAddressTransfer = async (events: readonly Event[], index: TransferEventIndex, propertyGroupInstance: Contract): Promise<readonly Event[]> => {
-	return Promise.all(events.filter(async (event)=>{
-		const address = typeof(event.args) === 'undefined' ? constants.AddressZero: event.args[index]
-		return await propertyGroupInstance.isGroup(address)
-	}))
+export const filteringPropertyAddressTransfer = async (
+	events: readonly Event[],
+	index: TransferEventIndex,
+	propertyGroupInstance: Contract
+): Promise<readonly Event[]> => {
+	return Promise.all(
+		events.filter(async (event) => {
+			const address =
+				typeof event.args === 'undefined'
+					? constants.AddressZero
+					: event.args[index]
+			return await propertyGroupInstance.isGroup(address)
+		})
+	)
 }

@@ -4,7 +4,7 @@ import {
 	getRelationVoteEvent,
 	getVoteAttributes,
 	getDevContract,
-	getPropertyGroupContract
+	getPropertyGroupContract,
 } from './contract'
 import { formatVoteEventData } from './format'
 import { filteringValidData } from './filtering'
@@ -18,7 +18,12 @@ export const getVotes = async (
 	const propertyGroupInstance = await getPropertyGroupContract(provider)
 	const voteAllLogs = await getRelationVoteEvent(voteInstance, provider)
 	const voteAttributes = await getVoteAttributes(voteInstance)
-	const formattedData = await formatVoteEventData(voteAllLogs, devInstance, propertyGroupInstance, voteAttributes.period)
+	const formattedData = await formatVoteEventData(
+		voteAllLogs,
+		devInstance,
+		propertyGroupInstance,
+		voteAttributes.period
+	)
 	const filteredData = filteringValidData(voteAttributes.options, formattedData)
 	return {}
 }
