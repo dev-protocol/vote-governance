@@ -7,10 +7,9 @@ export const getVoteContract = (
 	address: string,
 	provider: BaseProvider
 ): Contract => {
-	// TODO いらないものを削除する
+	// TODO
 	// Attributesの定義がなくてもデータは取得できるのだろうか。。。あかん気がするけど。
 	const abi = [
-		'function vote(bytes32[] memory options, uint8[] memory percentiles) external',
 		'function voteEmitter() public view returns (address)',
 		'function period() public view returns (uint256)',
 		'function attributes() external view returns (Attributes memory)',

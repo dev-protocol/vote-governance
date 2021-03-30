@@ -1,4 +1,4 @@
-import { Event, ethers, BigNumber, Contract } from 'ethers'
+import { Event, BigNumber, Contract } from 'ethers'
 import { Result } from '@ethersproject/abi'
 import { VoteData } from './../types'
 import { getAllStakingValue } from './../staking'
@@ -16,7 +16,6 @@ export const formatVoteEventData = async (
 						isValid: false,
 						voter: '',
 						options: [],
-						optionsRaw: [],
 						percentiles: [],
 						value: BigNumber.from(0),
 				  } as VoteData)
@@ -32,10 +31,7 @@ const format = async (
 	propertyGroupInstance: Contract,
 	toBlock: number
 ): Promise<VoteData> => {
-	const byte32Options = args[2] as readonly string[]
-	const parsedOptions = byte32Options.map((option) => {
-		return ethers.utils.parseBytes32String(option)
-	})
+	const options = args[2] as readonly number[]
 	const percentiles = args[3] as readonly number[]
 	const stakingvalue = await getAllStakingValue(
 		devInstance,
@@ -46,8 +42,7 @@ const format = async (
 	return {
 		isValid: true,
 		voter: args[1],
-		options: parsedOptions,
-		optionsRaw: byte32Options,
+		options: options,
 		percentiles: percentiles,
 		value: stakingvalue,
 	} as VoteData

@@ -1,3 +1,3 @@
-import { sumTransferEventValue } from './calculate'
+import { sumTransferEventValue, calculateVote } from './calculate'
 
-export { sumTransferEventValue }
+export { sumTransferEventValue, calculateVote }

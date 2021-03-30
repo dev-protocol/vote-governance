@@ -8,11 +8,13 @@ import {
 } from './contract'
 import { formatVoteEventData } from './format'
 import { filteringValidData } from './filtering'
+import { calculateVote } from './data-process'
+import { VoteInfo } from './types'
 
 export const getVotes = async (
 	voteAddress: string,
 	provider: BaseProvider
-): Promise<any> => {
+): Promise<VoteInfo> => {
 	const voteInstance = getVoteContract(voteAddress, provider)
 	const devInstance = await getDevContract(provider)
 	const propertyGroupInstance = await getPropertyGroupContract(provider)
@@ -24,8 +26,11 @@ export const getVotes = async (
 		propertyGroupInstance,
 		voteAttributes.period
 	)
-	const filteredData = filteringValidData(voteAttributes.options, formattedData)
-	return {}
+	const filteredData = filteringValidData(
+		voteAttributes.options.length,
+		formattedData
+	)
+	return calculateVote(voteAttributes.options, filteredData)
 }
 
 // TODO

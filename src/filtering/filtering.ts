@@ -1,22 +1,21 @@
-import { ethers, Event, Contract, constants, BigNumber } from 'ethers'
+import { Event, Contract, constants, BigNumber } from 'ethers'
 import { VoteData } from './../types'
 
 export const filteringValidData = (
-	options: readonly string[],
+	optionsLength: number,
 	voteData: readonly VoteData[]
 ): readonly VoteData[] => {
-	const parsedOptions = options.map((o) => {
-		return ethers.utils.parseBytes32String(o)
-	})
 	return voteData.filter((data) => {
 		return (
 			data.isValid &&
 			isAccurateSumValue(data.percentiles) &&
 			isSameDataCount(data) &&
-			isUniqueOptionNames(data.options) &&
-			isReasonableOptions(data.options, parsedOptions) &&
+			isDifferentNumbers(data.options) &&
+			isMaxOptionValueUnderThenOptionLength(data.options, optionsLength) &&
 			hasStakingValue(data.value) &&
-			isDifferentNumbers(data.percentiles)
+			isDifferentNumbers(data.percentiles) &&
+			isAppropriateNumberOfDatacount(data.options.length, optionsLength) &&
+			isAppropriateNumberOfDatacount(data.percentiles.length, optionsLength)
 		)
 	})
 }
@@ -33,24 +32,27 @@ const isSameDataCount = (data: VoteData): boolean => {
 	return data.percentiles.length === data.options.length
 }
 
-const isUniqueOptionNames = (options: readonly string[]): boolean => {
-	const setOptions = new Set(options)
-	return setOptions.size === options.length
-}
-
-const isReasonableOptions = (
-	dataOptions: readonly string[],
-	options: readonly string[]
+const isAppropriateNumberOfDatacount = (
+	valuesLength: number,
+	optionLength: number
 ): boolean => {
-	const tmp = dataOptions.filter((dataOption) => {
-		return options.includes(dataOption)
-	})
-	return tmp.length === dataOptions.length
+	return 0 < valuesLength && valuesLength <= optionLength
 }
 
-const isDifferentNumbers = (percentiles: readonly number[]): boolean => {
-	const setPercentiles = new Set(percentiles)
-	return setPercentiles.size === percentiles.length
+const isMaxOptionValueUnderThenOptionLength = (
+	options: readonly number[],
+	optionLength: number
+): boolean => {
+	const aryMax = (a: number, b: number): number => {
+		return Math.max(a, b)
+	}
+	const tmp = options.reduce(aryMax)
+	return tmp < optionLength
+}
+
+const isDifferentNumbers = (values: readonly number[]): boolean => {
+	const setValues = new Set(values)
+	return setValues.size === values.length
 }
 
 const hasStakingValue = (value: BigNumber): boolean => {

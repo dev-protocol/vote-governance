@@ -6,7 +6,6 @@ const getVoteEmitterContract = (
 	provider: BaseProvider
 ): Contract => {
 	const abi = [
-		'function dispatch(address voter,bytes32[] memory options,uint8[] memory percentiles) external',
 		'event Vote(address dispatcher,address voter,bytes32[] options,uint8[] percentiles)',
 	]
 	return new Contract(address, abi, provider)
