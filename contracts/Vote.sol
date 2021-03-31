@@ -6,6 +6,7 @@ import {IVoteEmitter} from "contracts/interface/IVoteEmitter.sol";
 
 contract Vote {
 	struct Attributes {
+		address proposer;
 		string subject;
 		string body;
 		uint256 period;
@@ -14,6 +15,7 @@ contract Vote {
 		string optionsMimeType;
 	}
 	address public voteEmitter;
+	address public proposer;
 	string public subject;
 	string public body;
 	uint256 public period;
@@ -31,9 +33,10 @@ contract Vote {
 		uint256 _votingBlock
 	) {
 		voteEmitter = _voteEmitter;
-		period = _votingBlock + block.number;
+		proposer = msg.sender;
 		subject = _subject;
 		body = _body;
+		period = _votingBlock + block.number;
 		options = _options;
 		bodyMimeType = _bodyMimeType;
 		optionsMimeType = _optionsMimeType;
@@ -42,6 +45,7 @@ contract Vote {
 	function attributes() external view returns (Attributes memory) {
 		return
 			Attributes(
+				proposer,
 				subject,
 				body,
 				period,
