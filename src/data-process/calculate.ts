@@ -23,7 +23,7 @@ export const calculateVote = (
 			return val1.concat(val2)
 		})
 
-	const optionIndexes = [...Array(options.length)].map((_, i) => i)
+	const optionIndexes = [...Array(options.length)].fill(0).map((_, i) => i)
 	const tmp = optionIndexes.map((optionIndex) => {
 		const targetVoteData = getAnalyzedDataByOptionIndex(
 			analyzedData,
@@ -48,6 +48,7 @@ const getCount = (
 	optionsCount: number
 ): string => {
 	const magnification = [...Array(optionsCount)]
+		.fill(0)
 		.map((_, i) => i)
 		.reverse()
 		.map((d) => {
