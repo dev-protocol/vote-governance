@@ -96,7 +96,7 @@ const getAnalyzedDataByOptionIndex = (
 const analysisVoteData = (optionsCount: number) => (
 	voteData: VoteData
 ): readonly AnalyzedVoteData[] => {
-	const optionIndexes = [...Array(optionsCount)].map((_, i) => i)
+	const optionIndexes = [...Array(optionsCount)].fill(0).map((_, i) => i)
 	return optionIndexes.map((optionIndex) => {
 		const percentile = voteData.percentiles[optionIndex]
 		return {
