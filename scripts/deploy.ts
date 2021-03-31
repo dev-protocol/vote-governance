@@ -48,7 +48,7 @@ const deploy = async (): Promise<void> => {
 
 	const emitterContract = await voteEmitterFactory.deploy({
 		gasLimit: 6721975,
-		gasPrice: await gasPrice(),
+		gasPrice: Number(await gasPrice()),
 	})
 
 	await emitterContract.deployed()
@@ -70,7 +70,7 @@ const deploy = async (): Promise<void> => {
 		Number(BLOCK),
 		{
 			gasLimit: 6721975,
-			gasPrice: await gasPrice(),
+			gasPrice: Number(await gasPrice()),
 		}
 	)
 	await voteContract.deployed()
