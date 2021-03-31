@@ -1,6 +1,8 @@
 import { fromPairs, zip } from 'ramda'
-import { Event, BigNumber } from 'ethers'
+import { Event, BigNumber, constants } from 'ethers'
 import { VoteData, VoteInfo } from './../types'
+
+const { Zero } = constants
 
 export const sumTransferEventValue = (events: readonly Event[]): BigNumber => {
 	const values = events.map((event) => {
@@ -10,7 +12,7 @@ export const sumTransferEventValue = (events: readonly Event[]): BigNumber => {
 	})
 	return values.reduce((val1, val2) => {
 		return val1.add(val2)
-	})
+	}, Zero)
 }
 
 export const calculateVote = (
@@ -21,7 +23,7 @@ export const calculateVote = (
 		.map(analysisVoteData(options.length))
 		.reduce((val1, val2) => {
 			return val1.concat(val2)
-		})
+		}, [])
 
 	const optionIndexes = [...Array(options.length)].fill(0).map((_, i) => i)
 	const tmp = optionIndexes.map((optionIndex) => {
@@ -61,7 +63,7 @@ const getCount = (
 		})
 		.reduce((val1, val2) => {
 			return val1.add(val2)
-		})
+		}, Zero)
 		.toString()
 }
 
@@ -81,7 +83,7 @@ const getCounts = (
 
 		return voteCounts.reduce((val1, val2) => {
 			return val1.add(val2)
-		})
+		}, Zero)
 	})
 }
 
