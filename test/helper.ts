@@ -3,9 +3,12 @@ import { deployContract, MockProvider } from 'ethereum-waffle'
 import Vote from '../build/Vote.json'
 import VoteEmitter from '../build/VoteEmitter.json'
 
-export const deployVoteRelationContract = async (options: readonly string[], votingBlock: number): Promise<
+export const deployVoteRelationContract = async (
+	options: readonly string[],
+	votingBlock: number
+): Promise<
 	readonly [Contract, Contract, MockProvider, number, readonly Wallet[]]
-	> => {
+> => {
 	const provider = new MockProvider()
 	const wallets = provider.getWallets()
 	const voteEmitter = await deployContract(wallets[0], VoteEmitter)
@@ -21,4 +24,3 @@ export const deployVoteRelationContract = async (options: readonly string[], vot
 	const blockNumber = await provider.getBlockNumber()
 	return [vote, voteEmitter, provider, blockNumber, wallets]
 }
-

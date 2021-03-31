@@ -9,7 +9,9 @@ import { getDevContract, getDevTransferEvent } from '../../../src/contract'
 import { deployContract, MockProvider } from 'ethereum-waffle'
 import Dev from '../../../build/Dev.json'
 
-export const deployDevContract = async (provider: MockProvider): Promise<Contract> => {
+export const deployDevContract = async (
+	provider: MockProvider
+): Promise<Contract> => {
 	const wallets = provider.getWallets()
 	const dev = await deployContract(wallets[0], Dev)
 	return dev

@@ -9,64 +9,64 @@ export const getVoteContract = (
 ): Contract => {
 	const abi = [
 		{
-		  "inputs": [],
-		  "name": "attributes",
-		  "outputs": [
-			{
-			  "components": [
+			inputs: [],
+			name: 'attributes',
+			outputs: [
 				{
-				  "internalType": "string",
-				  "name": "subject",
-				  "type": "string"
+					components: [
+						{
+							internalType: 'string',
+							name: 'subject',
+							type: 'string',
+						},
+						{
+							internalType: 'string',
+							name: 'body',
+							type: 'string',
+						},
+						{
+							internalType: 'uint256',
+							name: 'period',
+							type: 'uint256',
+						},
+						{
+							internalType: 'string[]',
+							name: 'options',
+							type: 'string[]',
+						},
+						{
+							internalType: 'string',
+							name: 'bodyMimeType',
+							type: 'string',
+						},
+						{
+							internalType: 'string',
+							name: 'optionsMimeType',
+							type: 'string',
+						},
+					],
+					internalType: 'struct Vote.Attributes',
+					name: '',
+					type: 'tuple',
 				},
-				{
-				  "internalType": "string",
-				  "name": "body",
-				  "type": "string"
-				},
-				{
-				  "internalType": "uint256",
-				  "name": "period",
-				  "type": "uint256"
-				},
-				{
-				  "internalType": "string[]",
-				  "name": "options",
-				  "type": "string[]"
-				},
-				{
-				  "internalType": "string",
-				  "name": "bodyMimeType",
-				  "type": "string"
-				},
-				{
-				  "internalType": "string",
-				  "name": "optionsMimeType",
-				  "type": "string"
-				}
-			  ],
-			  "internalType": "struct Vote.Attributes",
-			  "name": "",
-			  "type": "tuple"
-			}
-		  ],
-		  "stateMutability": "view",
-		  "type": "function"
+			],
+			stateMutability: 'view',
+			type: 'function',
 		},
 		{
-		  "inputs": [],
-		  "name": "voteEmitter",
-		  "outputs": [
-			{
-			  "internalType": "address",
-			  "name": "",
-			  "type": "address"
-			}
-		  ],
-		  "stateMutability": "view",
-		  "type": "function"
-		}
-	  ]
+			inputs: [],
+			name: 'voteEmitter',
+			outputs: [
+				{
+					internalType: 'address',
+					name: '',
+					type: 'address',
+				},
+			],
+			stateMutability: 'view',
+			type: 'function',
+		},
+	]
 	return new Contract(address, abi, provider)
 }
 

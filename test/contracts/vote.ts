@@ -18,7 +18,12 @@ describe('Vote', () => {
 
 	describe('constructor', () => {
 		it('Internal variables are recorded.', async () => {
-			const [vote, voteEmitter, , blockNumber] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
+			const [
+				vote,
+				voteEmitter,
+				,
+				blockNumber,
+			] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
 			expect(await vote.subject()).to.be.equal('dummy-subject')
 			expect(await vote.body()).to.be.equal('dummy-body')
 			expect(await vote.options(0)).to.be.equal(options0)
@@ -31,7 +36,10 @@ describe('Vote', () => {
 	})
 	describe('attributes', () => {
 		it('Internal variables are recorded.', async () => {
-			const [vote, , , blockNumber] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
+			const [vote, , , blockNumber] = await deployVoteRelationContract(
+				[options0, options1],
+				VOTING_BLOCK
+			)
 			const attributes = await vote.attributes()
 			expect(attributes[0]).to.be.equal('dummy-subject')
 			expect(attributes[1]).to.be.equal('dummy-body')
@@ -46,13 +54,19 @@ describe('Vote', () => {
 	})
 	describe('vote', () => {
 		it('If you miss the voting deadline, you will get an error.', async () => {
-			const [vote, , provider] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
+			const [vote, , provider] = await deployVoteRelationContract(
+				[options0, options1],
+				VOTING_BLOCK
+			)
 			await mine(provider, VOTING_BLOCK)
 
 			await expect(vote.vote([], [])).to.be.revertedWith('over the period')
 		})
 		it('save vote infomation.', async () => {
-			const [vote, voteEmitter, , , wallets] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
+			const [vote, voteEmitter, , , wallets] = await deployVoteRelationContract(
+				[options0, options1],
+				VOTING_BLOCK
+			)
 			const arg1 = [0, 1]
 			await vote.vote(arg1, [40, 60])
 			const filterVote = voteEmitter.filters.Vote()
