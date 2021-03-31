@@ -47,7 +47,7 @@ const deploy = async (): Promise<void> => {
 	)
 
 	const emitterContract = await voteEmitterFactory.deploy({
-		gasLimit: 6721975,
+		gasLimit: 200000,
 		gasPrice: Number(await gasPrice()),
 	})
 
@@ -57,7 +57,7 @@ const deploy = async (): Promise<void> => {
 
 	const voteFactory = new ethers.ContractFactory(
 		Vote.abi,
-		Vote.bytecode,
+		Vote.evm.bytecode,
 		wallet
 	)
 	const voteContract = await voteFactory.deploy(
@@ -69,7 +69,7 @@ const deploy = async (): Promise<void> => {
 		emitterContract.address,
 		Number(BLOCK),
 		{
-			gasLimit: 6721975,
+			gasLimit: 1500000,
 			gasPrice: Number(await gasPrice()),
 		}
 	)
