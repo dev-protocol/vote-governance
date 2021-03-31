@@ -1,14 +1,22 @@
 /* eslint-disable new-cap */
+/* eslint-disable functional/no-expression-statement */
+/* eslint-disable functional/functional-parameters */
+
 import { expect, use } from 'chai'
 import { describe } from 'mocha'
-import { Contract, Wallet } from 'ethers'
 import { deployContract, MockProvider, solidity } from 'ethereum-waffle'
-import VoteEmitter from '../build/VoteEmitter.json'
+import VoteEmitter from '../../build/VoteEmitter.json'
+import { PromiseValue } from 'type-fest'
 
 use(solidity)
 
 describe('VoteEmitter', () => {
-	const init = async (): Promise<[Contract, Wallet[]]> => {
+	const init = async (): Promise<
+		readonly [
+			PromiseValue<ReturnType<typeof deployContract>>,
+			ReturnType<MockProvider['getWallets']>
+		]
+	> => {
 		const provider = new MockProvider()
 		const wallets = provider.getWallets()
 		const voteEmitter = await deployContract(wallets[0], VoteEmitter)

@@ -1,23 +1,31 @@
 {
 	"env": {
-		"mocha": true
+		"mocha": true,
+		"es6": true
 	},
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"project": "./tsconfig.json",
 		"tsconfigRootDir": "."
 	},
-	"plugins": ["@typescript-eslint"],
+	"plugins": ["@typescript-eslint", "functional"],
 	"extends": [
 		"eslint:recommended",
 		"plugin:@typescript-eslint/eslint-recommended",
 		"plugin:@typescript-eslint/recommended",
-		"xo",
-		"xo-typescript",
+		"plugin:functional/external-recommended",
+		"plugin:functional/all",
 		"prettier",
 		"prettier/@typescript-eslint"
 	],
-	"rules": {
-		"@typescript-eslint/prefer-readonly-parameter-types": "warn"
-	}
+	"overrides": [
+		{
+			"files": ["test/**/*.ts"],
+			"rules": {
+				"functional/no-expression-statement": "off",
+				"functional/functional-parameters": "off",
+				"@typescript-eslint/no-explicit-any": "off"
+			}
+		}
+	]
 }

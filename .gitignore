@@ -64,10 +64,12 @@ typings/
 # output of typechain
 build
 types
+dist
 
 # output of tsc
 *.js
 !truffle-config.js
+!rollup.config.js
 
 # use yarn
 package-lock.json
