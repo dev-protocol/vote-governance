@@ -13,7 +13,7 @@ describe('filteringValidData', () => {
 			isValid: false,
 			voter: 'dummy',
 			percentiles: [10, 90],
-			value: BigNumber.from(100)
+			value: BigNumber.from(100),
 		} as VoteData
 		const filteredData = filteringValidData(2, [data])
 		expect(filteredData.length).to.be.equal(0)
@@ -23,7 +23,7 @@ describe('filteringValidData', () => {
 			isValid: true,
 			voter: 'dummy',
 			percentiles: [10, 90],
-			value: BigNumber.from(0)
+			value: BigNumber.from(0),
 		} as VoteData
 		const filteredData = filteringValidData(2, [data])
 		expect(filteredData.length).to.be.equal(0)
@@ -33,7 +33,7 @@ describe('filteringValidData', () => {
 			isValid: true,
 			voter: 'dummy',
 			percentiles: [10, 80],
-			value: BigNumber.from(100)
+			value: BigNumber.from(100),
 		} as VoteData
 		const filteredData = filteringValidData(2, [data])
 		expect(filteredData.length).to.be.equal(0)
@@ -43,7 +43,7 @@ describe('filteringValidData', () => {
 			isValid: true,
 			voter: 'dummy',
 			percentiles: [50, 50],
-			value: BigNumber.from(100)
+			value: BigNumber.from(100),
 		} as VoteData
 		const filteredData = filteringValidData(2, [data])
 		expect(filteredData.length).to.be.equal(0)
@@ -53,7 +53,7 @@ describe('filteringValidData', () => {
 			isValid: true,
 			voter: 'dummy',
 			percentiles: [50, 30, 20],
-			value: BigNumber.from(100)
+			value: BigNumber.from(100),
 		} as VoteData
 		const filteredData = filteringValidData(2, [data])
 		expect(filteredData.length).to.be.equal(0)
@@ -63,7 +63,7 @@ describe('filteringValidData', () => {
 			isValid: true,
 			voter: 'dummy',
 			percentiles: [10, 90],
-			value: BigNumber.from(100)
+			value: BigNumber.from(100),
 		} as VoteData
 		const filteredData = filteringValidData(2, [data])
 		expect(filteredData.length).to.be.equal(1)
@@ -74,43 +74,44 @@ describe('filteringValidData', () => {
 		expect(filteredData[0].value.toString()).to.be.equal('100')
 	})
 	it('Only complete data will be returned.', async () => {
-		const data = [{
-			isValid: true,
-			voter: 'dummy',
-			percentiles: [10, 90],
-			value: BigNumber.from(100)
-		} as VoteData,
-		{
-			isValid: true,
-			voter: 'dummy',
-			percentiles: [50, 30, 20],
-			value: BigNumber.from(100)
-		} as VoteData,
-		{
-			isValid: true,
-			voter: 'dummy',
-			percentiles: [50, 50],
-			value: BigNumber.from(100)
-		} as VoteData,
-		{
-			isValid: true,
-			voter: 'dummy',
-			percentiles: [10, 80],
-			value: BigNumber.from(100)
-		} as VoteData,
-		{
-			isValid: true,
-			voter: 'dummy',
-			percentiles: [10, 90],
-			value: BigNumber.from(0)
-		} as VoteData,
-		{
-			isValid: false,
-			voter: 'dummy',
-			percentiles: [10, 90],
-			value: BigNumber.from(100)
-		} as VoteData
-	]
+		const data = [
+			{
+				isValid: true,
+				voter: 'dummy',
+				percentiles: [10, 90],
+				value: BigNumber.from(100),
+			} as VoteData,
+			{
+				isValid: true,
+				voter: 'dummy',
+				percentiles: [50, 30, 20],
+				value: BigNumber.from(100),
+			} as VoteData,
+			{
+				isValid: true,
+				voter: 'dummy',
+				percentiles: [50, 50],
+				value: BigNumber.from(100),
+			} as VoteData,
+			{
+				isValid: true,
+				voter: 'dummy',
+				percentiles: [10, 80],
+				value: BigNumber.from(100),
+			} as VoteData,
+			{
+				isValid: true,
+				voter: 'dummy',
+				percentiles: [10, 90],
+				value: BigNumber.from(0),
+			} as VoteData,
+			{
+				isValid: false,
+				voter: 'dummy',
+				percentiles: [10, 90],
+				value: BigNumber.from(100),
+			} as VoteData,
+		]
 		const filteredData = filteringValidData(2, data)
 		expect(filteredData.length).to.be.equal(1)
 		expect(filteredData[0].isValid).to.be.equal(true)
@@ -120,5 +121,3 @@ describe('filteringValidData', () => {
 		expect(filteredData[0].value.toString()).to.be.equal('100')
 	})
 })
-
-
