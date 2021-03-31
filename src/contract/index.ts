@@ -5,6 +5,7 @@ import {
 } from './vote'
 import { getDevContract, getDevTransferEvent } from './dev'
 import { getPropertyGroupContract } from './property-group'
+import { getDevAddress } from './address'
 
 export {
 	getRelationVoteEvent,
@@ -13,4 +14,5 @@ export {
 	getDevContract,
 	getDevTransferEvent,
 	getPropertyGroupContract,
+	getDevAddress,
 }

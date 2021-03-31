@@ -7,13 +7,66 @@ export const getVoteContract = (
 	address: string,
 	provider: BaseProvider
 ): Contract => {
-	// TODO
-	// Attributesの定義がなくてもデータは取得できるのだろうか。。。あかん気がするけど。
 	const abi = [
-		'function voteEmitter() public view returns (address)',
-		'function period() public view returns (uint256)',
-		'function attributes() external view returns (Attributes memory)',
-	]
+		{
+		  "inputs": [],
+		  "name": "attributes",
+		  "outputs": [
+			{
+			  "components": [
+				{
+				  "internalType": "string",
+				  "name": "subject",
+				  "type": "string"
+				},
+				{
+				  "internalType": "string",
+				  "name": "body",
+				  "type": "string"
+				},
+				{
+				  "internalType": "uint256",
+				  "name": "period",
+				  "type": "uint256"
+				},
+				{
+				  "internalType": "string[]",
+				  "name": "options",
+				  "type": "string[]"
+				},
+				{
+				  "internalType": "string",
+				  "name": "bodyMimeType",
+				  "type": "string"
+				},
+				{
+				  "internalType": "string",
+				  "name": "optionsMimeType",
+				  "type": "string"
+				}
+			  ],
+			  "internalType": "struct Vote.Attributes",
+			  "name": "",
+			  "type": "tuple"
+			}
+		  ],
+		  "stateMutability": "view",
+		  "type": "function"
+		},
+		{
+		  "inputs": [],
+		  "name": "voteEmitter",
+		  "outputs": [
+			{
+			  "internalType": "address",
+			  "name": "",
+			  "type": "address"
+			}
+		  ],
+		  "stateMutability": "view",
+		  "type": "function"
+		}
+	  ]
 	return new Contract(address, abi, provider)
 }
 
@@ -38,3 +91,4 @@ export const getVoteAttributes = async (
 		optionsMimeType: tmp[5],
 	} as VoteAttributes
 }
+//struct Attributes {string subject;string body;uint256 period;string[] options;string bodyMimeType;string optionsMimeType;}

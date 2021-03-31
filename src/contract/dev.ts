@@ -1,18 +1,14 @@
 import { Contract, Event } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 
-export const getDevContract = async (
-	provider: BaseProvider
-): Promise<Contract> => {
-	const network = await provider.getNetwork()
-	const address =
-		network.name === 'ropsten'
-			? '0x5312f4968901Ec9d4fc43d2b0e437041614B14A2'
-			: '0x5cAf454Ba92e6F2c929DF14667Ee360eD9fD5b26'
+export const getDevContract = (
+	provider: BaseProvider,
+	devAddress: string
+): Contract => {
 	const abi = [
 		'event Transfer(address indexed from, address indexed to, uint256 value)',
 	]
-	return new Contract(address, abi, provider)
+	return new Contract(devAddress, abi, provider)
 }
 
 export const getDevTransferEvent = async (

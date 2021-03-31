@@ -6,7 +6,7 @@ import { expect, use } from 'chai'
 import { describe } from 'mocha'
 import { Contract, Wallet } from 'ethers'
 import { deployContract, MockProvider, solidity } from 'ethereum-waffle'
-import VoteEmitter from '../build/VoteEmitter.json'
+import VoteEmitter from '../../build/VoteEmitter.json'
 
 use(solidity)
 
