@@ -39,16 +39,6 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@devprotocol/dev-kit@^4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@devprotocol/dev-kit/-/dev-kit-4.3.0.tgz#eb8bf64a17780bb1b255dae0a963bbef01846c23"
-  integrity sha512-tpz9M1Y+Rk4sZbFU00wFff8Cdu3cMsby/WTIyVBbOlZEcAtO+rKF6peHvATE2h310V1j4pIMcCtiTr8JJ03/bg==
-  dependencies:
-    "@types/bent" "^7.3.1"
-    async-ray "^3.2.0"
-    bent "^7.3.12"
-    ramda "^0.27.0"
-
 "@devprotocol/util-ts@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@devprotocol/util-ts/-/util-ts-2.2.1.tgz#331b0c29b3837589bcb16f143afb9a51495238cc"
@@ -853,10 +843,10 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
-"@openzeppelin/contracts@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.0.0.tgz#54d1de30911635020c383cb73b160b698e7ae179"
-  integrity sha512-UcIJl/vUVjTr3H1yYXZi7Sr2PlXzBEHVUJKOUlVyzyy0FI8oQCCy0Wx+BuK/fojdnmLeMvUk4KUvhKUybP+C7Q==
+"@openzeppelin/contracts@3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.4.1.tgz#03c891fec7f93be0ae44ed74e57a122a38732ce7"
+  integrity sha512-cUriqMauq1ylzP2TxePNdPqkwI7Le3Annh4K9rrpvKfSBB/bdW+Iu1ihBaTIABTAAJ85LmKL5SSPPL9ry8d1gQ==
 
 "@resolver-engine/core@^0.3.3":
   version "0.3.3"
@@ -982,13 +972,6 @@
   dependencies:
     ethers "^5.0.2"
 
-"@types/bent@^7.3.1":
-  version "7.3.2"
-  resolved "https://registry.yarnpkg.com/@types/bent/-/bent-7.3.2.tgz#07b4f7bcec577be27cdb9e9034eb0de0242481a7"
-  integrity sha512-wtE/+NIk55jVUHJFt//kxmq8cQ7ef4J2U9HO7lZqKW4lvvPYTd7KfAEKZLsFmDgmzzMvfd4cPSdv3blqVWmqSQ==
-  dependencies:
-    "@types/node" "*"
-
 "@types/bn.js@^4.11.3", "@types/bn.js@^4.11.5":
   version "4.11.6"
   resolved "https://registry.yarnpkg.com/@types/bn.js/-/bn.js-4.11.6.tgz#c306c70d9358aaea33cd4eda092a742b9505967c"
@@ -1095,7 +1078,7 @@
     semver "^7.3.2"
     tsutils "^3.17.1"
 
-"@typescript-eslint/experimental-utils@4.20.0":
+"@typescript-eslint/experimental-utils@4.20.0", "@typescript-eslint/experimental-utils@^4.9.1":
   version "4.20.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-4.20.0.tgz#a8ab2d7b61924f99042b7d77372996d5f41dc44b"
   integrity sha512-sQNlf6rjLq2yB5lELl3gOE7OuoA/6IVXJUJ+Vs7emrQMva14CkOwyQwD7CW+TkmOJ4Q/YGmoDLmbfFrpGmbKng==
@@ -1433,11 +1416,6 @@ async-limiter@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
   integrity sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
-
-async-ray@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/async-ray/-/async-ray-3.2.0.tgz#331e1b3549a80b456304b37a3d43939c6170164d"
-  integrity sha512-w1t9m2Wp0A+yQ5xaBxbOMVuZAxdZEntQAiOoV3JaDsLlme+oqdKmi5k0z0lJPoEy7zmD7mfqKgBw7kzaKc+ZRQ==
 
 async@2.6.2:
   version "2.6.2"
@@ -2053,7 +2031,7 @@ bech32@1.1.4:
   resolved "https://registry.yarnpkg.com/bech32/-/bech32-1.1.4.tgz#e38c9f37bf179b8eb16ae3a772b40c356d4832e9"
   integrity sha512-s0IrSOzLlbvX7yp4WBfPITzpAU8sqQcpsmwXDiKwrG4r491vwCO/XpejasRNl0piBMe/DvP4Tz0mIS/X1DPJBQ==
 
-bent@7.3.12, bent@^7.3.12:
+bent@7.3.12:
   version "7.3.12"
   resolved "https://registry.yarnpkg.com/bent/-/bent-7.3.12.tgz#e0a2775d4425e7674c64b78b242af4f49da6b035"
   integrity sha512-T3yrKnVGB63zRuoco/7Ybl7BwwGZR0lceoVG5XmQyMIH9s19SV5m+a8qam4if0zQuAmOQTyPTPmsQBdAorGK3w==
@@ -6771,7 +6749,7 @@ querystring@0.2.0:
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
   integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
 
-ramda@^0.27.0, ramda@^0.27.1:
+ramda@^0.27.1:
   version "0.27.1"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.27.1.tgz#66fc2df3ef873874ffc2da6aa8984658abacf5c9"
   integrity sha512-PgIdVpn5y5Yns8vqb8FzBUEYn98V3xcPgawAkkgj0YJ0qDsnHCiNmZYfOGMgOvoB0eWFLpYbhxUR3mxfDIMvpw==
