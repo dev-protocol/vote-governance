@@ -4,56 +4,68 @@
 
 import { expect } from 'chai'
 import { describe } from 'mocha'
-import { ethers, Contract } from 'ethers'
+import { Contract } from 'ethers'
 import { getDevContract, getDevTransferEvent } from '../../../src/contract'
 import { deployContract, MockProvider } from 'ethereum-waffle'
 import Dev from '../../../build/Dev.json'
 
-export const deployDevContract = async (
-	provider: MockProvider
-): Promise<Contract> => {
-	const wallets = provider.getWallets()
-	const dev = await deployContract(wallets[0], Dev)
-	return dev
-}
-
 describe('getDevContract', () => {
 	it('Get the Dev instance of the mock environment.', async () => {
 		const provider = new MockProvider()
-		const devInstance = await deployDevContract(provider)
-		const instance = await getDevContract(provider, devInstance.address)
-		expect(instance.address).to.be.equal(devInstance.address)
+		const wallets = provider.getWallets()
+		const dev = await deployContract(wallets[0], Dev)
+		const instance = await getDevContract(provider, dev.address)
+		expect(instance.address).to.be.equal(dev.address)
 	})
 })
 
-// describe('getDevTransferEvent', () => {
-// 	const init = async (): Promise<Contract> => {
-// 		const wallets = provider.getWallets()
-// 		const dev = await deployContract(wallets[0], Dev)
-// 		return dev
-// 	}
+describe('getDevTransferEvent', () => {
+	const init = async (): Promise<readonly [MockProvider, Contract]> => {
+		const provider = new MockProvider()
+		const wallets = provider.getWallets()
+		const dev = await deployContract(wallets[0], Dev)
+		await dev.transfer(wallets[1].address, 10000)
+		await dev.transfer(wallets[2].address, 20000)
+		await dev.transfer(wallets[3].address, 30000)
+		const devWallet1 = dev.connect(wallets[1])
+		await devWallet1.transfer(wallets[0].address, 5000)
+		const devWallet2 = dev.connect(wallets[2])
+		await devWallet2.transfer(wallets[0].address, 5000)
+		return [provider, dev]
+	}
 
-//     before( async()=>{
-//         await deployDevContract
-//     });
-// 	it('Get the Transfer event of the address specified by the destination.', async () => {
-// 		const provider = ethers.getDefaultProvider('homestead')
-// 		const instance = await getDevContract(provider)
-// 		const events = await getDevTransferEvent(instance, null, '0xA717AA5E8858cA5836Fef082E6B2965ba0dB615d', 11962079)
-// 		events.map((event) => {
-// 			expect(event.args!.to).to.be.equal('0xA717AA5E8858cA5836Fef082E6B2965ba0dB615d')
-// 			expect(event.blockNumber<=11962079).to.be.equal(true)
-// 		})
-// 		expect(events.length>0).to.be.equal(true)
-// 	})
-// 	it('Get the Transfer event of the address specified by the sender.', async () => {
-// 		const provider = ethers.getDefaultProvider('homestead')
-// 		const instance = await getDevContract(provider)
-// 		const events = await getDevTransferEvent(instance, '0xA717AA5E8858cA5836Fef082E6B2965ba0dB615d', null, 12143892)
-// 		events.map((event) => {
-// 			expect(event.args!.from).to.be.equal('0xA717AA5E8858cA5836Fef082E6B2965ba0dB615d')
-// 			expect(event.blockNumber<=12143892).to.be.equal(true)
-// 		})
-// 		expect(events.length>0).to.be.equal(true)
-// 	})
-// })
+	it('Get the Transfer event of the address specified by the destination.', async () => {
+		const [provider, dev] = await init()
+		const instance = await getDevContract(provider, dev.address)
+		const blockNumber = await provider.getBlockNumber()
+		const address = provider.getWallets()[0].address
+		const events = await getDevTransferEvent(
+			instance,
+			null,
+			address,
+			blockNumber
+		)
+		events.map((event) => {
+			expect(event.args!.to).to.be.equal(address)
+			expect(event.blockNumber <= blockNumber).to.be.equal(true)
+		})
+		expect(events.length).to.be.equal(3)
+	})
+	it('Get the Transfer event of the address specified by the sender.', async () => {
+		const [provider, dev] = await init()
+		const instance = await getDevContract(provider, dev.address)
+		const blockNumber = await provider.getBlockNumber()
+		const address = provider.getWallets()[0].address
+		const events = await getDevTransferEvent(
+			instance,
+			address,
+			null,
+			blockNumber
+		)
+		events.map((event) => {
+			expect(event.args!.from).to.be.equal(address)
+			expect(event.blockNumber <= blockNumber).to.be.equal(true)
+		})
+		expect(events.length).to.be.equal(3)
+	})
+})

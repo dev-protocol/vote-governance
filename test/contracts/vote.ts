@@ -23,7 +23,9 @@ describe('Vote', () => {
 				voteEmitter,
 				,
 				blockNumber,
+				wallets,
 			] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
+			expect(await vote.proposer()).to.be.equal(wallets[0].address)
 			expect(await vote.subject()).to.be.equal('dummy-subject')
 			expect(await vote.body()).to.be.equal('dummy-body')
 			expect(await vote.options(0)).to.be.equal(options0)
@@ -36,20 +38,21 @@ describe('Vote', () => {
 	})
 	describe('attributes', () => {
 		it('Internal variables are recorded.', async () => {
-			const [vote, , , blockNumber] = await deployVoteRelationContract(
+			const [vote, , , blockNumber, wallets] = await deployVoteRelationContract(
 				[options0, options1],
 				VOTING_BLOCK
 			)
 			const attributes = await vote.attributes()
-			expect(attributes[0]).to.be.equal('dummy-subject')
-			expect(attributes[1]).to.be.equal('dummy-body')
-			expect((attributes[2] as BigNumber).toString()).to.be.equal(
+			expect(attributes.proposer).to.be.equal(wallets[0].address)
+			expect(attributes.subject).to.be.equal('dummy-subject')
+			expect(attributes.body).to.be.equal('dummy-body')
+			expect((attributes.period as BigNumber).toString()).to.be.equal(
 				(blockNumber + VOTING_BLOCK).toString()
 			)
-			expect(attributes[3][0]).to.be.equal(options0)
-			expect(attributes[3][1]).to.be.equal(options1)
-			expect(attributes[4]).to.be.equal('dummy-body-mime-type')
-			expect(attributes[5]).to.be.equal('dummy-option-mime-type')
+			expect(attributes.options[0]).to.be.equal(options0)
+			expect(attributes.options[1]).to.be.equal(options1)
+			expect(attributes.bodyMimeType).to.be.equal('dummy-body-mime-type')
+			expect(attributes.optionsMimeType).to.be.equal('dummy-option-mime-type')
 		})
 	})
 	describe('vote', () => {
@@ -67,16 +70,13 @@ describe('Vote', () => {
 				[options0, options1],
 				VOTING_BLOCK
 			)
-			const arg1 = [0, 1]
-			await vote.vote(arg1, [40, 60])
+			await vote.vote([40, 60])
 			const filterVote = voteEmitter.filters.Vote()
 			const events = await voteEmitter.queryFilter(filterVote)
 			expect(events[0].args?.[0]).to.be.equal(vote.address)
 			expect(events[0].args?.[1]).to.be.equal(wallets[0].address)
-			expect(events[0].args?.[2][0]).to.be.equal(0)
-			expect(events[0].args?.[2][1]).to.be.equal(1)
-			expect(events[0].args?.[3][0]).to.be.equal(40)
-			expect(events[0].args?.[3][1]).to.be.equal(60)
+			expect(events[0].args?.[2][0]).to.be.equal(40)
+			expect(events[0].args?.[2][1]).to.be.equal(60)
 		})
 	})
 })

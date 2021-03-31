@@ -1,6 +1,6 @@
 import { fromPairs, zip } from 'ramda'
 import { Event, BigNumber } from 'ethers'
-import { VoteData, VoteDetail, VoteInfo } from './../types'
+import { VoteData, VoteInfo } from './../types'
 
 export const sumTransferEventValue = (events: readonly Event[]): BigNumber => {
 	const values = events.map((event) => {
@@ -16,7 +16,7 @@ export const sumTransferEventValue = (events: readonly Event[]): BigNumber => {
 export const calculateVote = (
 	options: readonly string[],
 	voteData: readonly VoteData[]
-): VoteInfo => {
+): readonly VoteInfo[] => {
 	const analyzedData = voteData
 		.map(analysisVoteData(options.length))
 		.reduce((val1, val2) => {
@@ -38,11 +38,9 @@ export const calculateVote = (
 			id: options[optionIndex],
 			counts: counts,
 			count: count,
-		} as VoteDetail
+		} as VoteInfo
 	})
-	return {
-		detail: tmp,
-	} as VoteInfo
+	return tmp
 }
 
 const getCount = (
@@ -91,7 +89,7 @@ const getAnalyzedDataByOptionIndex = (
 	optionIdx: number
 ): readonly AnalyzedVoteData[] => {
 	return analyzedVoteData.filter((analyzedData) => {
-		return analyzedData.index === optionIdx && analyzedData.isvalid
+		return analyzedData.index === optionIdx
 	})
 }
 
@@ -100,34 +98,30 @@ const analysisVoteData = (optionsCount: number) => (
 ): readonly AnalyzedVoteData[] => {
 	const optionIndexes = [...Array(optionsCount)].map((_, i) => i)
 	return optionIndexes.map((optionIndex) => {
-		const optionIdx = voteData.options.indexOf(optionIndex)
-		const percentile =
-			optionIdx === -1 ? undefined : voteData.percentiles[optionIdx]
+		const percentile = voteData.percentiles[optionIndex]
 		return {
 			index: optionIndex,
-			isvalid: optionIdx !== -1,
-			rank: getRank(optionIdx),
-			voteCount: getVoteCount(percentile, voteData.value),
+			rank: getRank(voteData.percentiles, percentile),
+			voteCount: voteData.value
+				.mul(BigNumber.from(percentile))
+				.div(BigNumber.from(100)),
 		} as AnalyzedVoteData
 	})
 }
 
-const getRank = (optionIdx: number): number => {
-	return optionIdx === -1 ? -1 : optionIdx
-}
-
-const getVoteCount = (
-	percentile: number | undefined,
-	allVoteCount: BigNumber
-): BigNumber => {
-	return typeof percentile === 'undefined'
-		? BigNumber.from(-1)
-		: allVoteCount.mul(BigNumber.from(percentile)).div(BigNumber.from(100))
+const getRank = (
+	percentiles: readonly number[],
+	percentile: number
+): number => {
+	const compare = (a: number, b: number): number => {
+		return b - a
+	}
+	const descOrder = percentiles.slice().sort(compare)
+	return descOrder.indexOf(percentile)
 }
 
 type AnalyzedVoteData = {
 	readonly index: number
-	readonly isvalid: boolean
 	readonly rank: number
 	readonly voteCount: BigNumber
 }

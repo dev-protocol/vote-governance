@@ -1,6 +1,5 @@
-import { Contract, Event, BigNumber } from 'ethers'
+import { Contract, BigNumber } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
-import { getVoteEvent } from './vote-emitter'
 import { VoteAttributes } from './../types'
 
 export const getVoteContract = (
@@ -14,6 +13,11 @@ export const getVoteContract = (
 			outputs: [
 				{
 					components: [
+						{
+							internalType: 'address',
+							name: 'proposer',
+							type: 'address',
+						},
 						{
 							internalType: 'string',
 							name: 'subject',
@@ -70,25 +74,17 @@ export const getVoteContract = (
 	return new Contract(address, abi, provider)
 }
 
-export const getRelationVoteEvent = async (
-	voteInstance: Contract,
-	provider: BaseProvider
-): Promise<readonly Event[]> => {
-	const voteAllLogs = await getVoteEvent(voteInstance, provider)
-	return voteAllLogs
-}
-
 export const getVoteAttributes = async (
 	voteInstance: Contract
 ): Promise<VoteAttributes> => {
 	const tmp = await voteInstance.attributes()
 	return {
-		subject: tmp[0],
-		body: tmp[1],
-		period: (tmp[2] as BigNumber).toNumber(),
-		options: tmp[3],
-		bodyMimeType: tmp[4],
-		optionsMimeType: tmp[5],
+		proposer: tmp.proposer,
+		subject: tmp.subject,
+		body: tmp.body,
+		period: (tmp.period as BigNumber).toNumber(),
+		options: tmp.options,
+		bodyMimeType: tmp.bodyMimeType,
+		optionsMimeType: tmp.optionsMimeType,
 	} as VoteAttributes
 }
-//struct Attributes {string subject;string body;uint256 period;string[] options;string bodyMimeType;string optionsMimeType;}

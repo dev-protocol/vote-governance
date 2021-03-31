@@ -3,12 +3,12 @@ import { BigNumber } from 'ethers'
 export type VoteData = {
 	readonly isValid: boolean
 	readonly voter: string
-	readonly options: readonly number[]
 	readonly percentiles: readonly number[]
 	readonly value: BigNumber
 }
 
 export type VoteAttributes = {
+	readonly proposer: string
 	readonly subject: string
 	readonly body: string
 	readonly period: number
@@ -18,10 +18,6 @@ export type VoteAttributes = {
 }
 
 export type VoteInfo = {
-	readonly detail: readonly VoteDetail[]
-}
-
-export type VoteDetail = {
 	readonly id: string
 	readonly counts: readonly string[]
 	readonly count: string

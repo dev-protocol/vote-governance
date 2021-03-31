@@ -31,18 +31,16 @@ const format = async (
 	propertyGroupInstance: Contract,
 	toBlock: number
 ): Promise<VoteData> => {
-	const options = args[2] as readonly number[]
-	const percentiles = args[3] as readonly number[]
+	const percentiles = args.percentiles as readonly number[]
 	const stakingvalue = await getAllStakingValue(
 		devInstance,
 		propertyGroupInstance,
-		args[1],
+		args.voter,
 		toBlock
 	)
 	return {
 		isValid: true,
-		voter: args[1],
-		options: options,
+		voter: args.voter,
 		percentiles: percentiles,
 		value: stakingvalue,
 	} as VoteData

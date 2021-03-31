@@ -6,7 +6,7 @@ const getVoteEmitterContract = (
 	provider: BaseProvider
 ): Contract => {
 	const abi = [
-		'event Vote(address dispatcher,address voter,bytes32[] options,uint8[] percentiles)',
+		'event Vote(address indexed dispatcher,address voter,uint8[] percentiles)',
 	]
 	return new Contract(address, abi, provider)
 }

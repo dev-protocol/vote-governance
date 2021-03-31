@@ -1,4 +1,4 @@
-import { Event, Contract, constants, BigNumber } from 'ethers'
+import { Event, Contract, BigNumber } from 'ethers'
 import { VoteData } from './../types'
 
 export const filteringValidData = (
@@ -8,14 +8,10 @@ export const filteringValidData = (
 	return voteData.filter((data) => {
 		return (
 			data.isValid &&
-			isAccurateSumValue(data.percentiles) &&
-			isSameDataCount(data) &&
-			isDifferentNumbers(data.options) &&
-			isMaxOptionValueUnderThenOptionLength(data.options, optionsLength) &&
 			hasStakingValue(data.value) &&
+			isAccurateSumValue(data.percentiles) &&
 			isDifferentNumbers(data.percentiles) &&
-			isAppropriateNumberOfDatacount(data.options.length, optionsLength) &&
-			isAppropriateNumberOfDatacount(data.percentiles.length, optionsLength)
+			isSameDataCount(data.percentiles.length, optionsLength)
 		)
 	})
 }
@@ -28,26 +24,11 @@ const isAccurateSumValue = (percentiles: readonly number[]): boolean => {
 	)
 }
 
-const isSameDataCount = (data: VoteData): boolean => {
-	return data.percentiles.length === data.options.length
-}
-
-const isAppropriateNumberOfDatacount = (
+const isSameDataCount = (
 	valuesLength: number,
 	optionLength: number
 ): boolean => {
-	return 0 < valuesLength && valuesLength <= optionLength
-}
-
-const isMaxOptionValueUnderThenOptionLength = (
-	options: readonly number[],
-	optionLength: number
-): boolean => {
-	const aryMax = (a: number, b: number): number => {
-		return Math.max(a, b)
-	}
-	const tmp = options.reduce(aryMax)
-	return tmp < optionLength
+	return valuesLength === optionLength
 }
 
 const isDifferentNumbers = (values: readonly number[]): boolean => {
@@ -72,10 +53,10 @@ export const filteringPropertyAddressTransfer = async (
 	return Promise.all(
 		events.filter(async (event) => {
 			const address =
-				typeof event.args === 'undefined'
-					? constants.AddressZero
-					: event.args[index]
-			return await propertyGroupInstance.isGroup(address)
+				typeof event.args === 'undefined' ? undefined : event.args[index]
+			return typeof address === 'undefined'
+				? false
+				: await propertyGroupInstance.isGroup(address)
 		})
 	)
 }
