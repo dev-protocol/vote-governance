@@ -59,5 +59,5 @@ export const filteringPropertyAddressTransfer = async (
 				: await propertyGroupInstance.isGroup(address)
 		})
 	)
-	return events.filter((_, i)=>tmp[i])
+	return events.filter((_, i) => tmp[i])
 }
