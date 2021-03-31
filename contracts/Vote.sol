@@ -51,9 +51,7 @@ contract Vote {
 			);
 	}
 
-	function vote(uint8[] memory percentiles)
-		external
-	{
+	function vote(uint8[] memory percentiles) external {
 		require(block.number < period, "over the period");
 		IVoteEmitter(voteEmitter).dispatch(msg.sender, percentiles);
 	}
