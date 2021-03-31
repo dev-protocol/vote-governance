@@ -1,6 +1,6 @@
 {
 	"name": "@devprotocol/vote-count-resolver",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "Template repository for using TypeScript and Solidity",
 	"main": "dist/index.js",
 	"exports": {
