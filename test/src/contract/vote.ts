@@ -20,7 +20,7 @@ describe('getVoteContract', () => {
 			blockNumber,
 			wallets,
 		] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
-		const instance = await getVoteContract(vote.address, provider)
+		const instance = await getVoteContract(vote.address, provider as any)
 		expect(instance.address).to.be.equal(vote.address)
 		expect(await instance.voteEmitter()).to.be.equal(voteEmitter.address)
 		const attr = await instance.attributes()
@@ -46,7 +46,7 @@ describe('getVoteAttributes', () => {
 			blockNumber,
 			wallets,
 		] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
-		const instance = await getVoteContract(vote.address, provider)
+		const instance = await getVoteContract(vote.address, provider as any)
 		const attr = await getVoteAttributes(instance)
 		expect(attr.proposer).to.be.equal(wallets[0].address)
 		expect(attr.subject).to.be.equal('dummy-subject')

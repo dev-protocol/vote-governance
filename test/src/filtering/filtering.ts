@@ -139,7 +139,7 @@ describe('filteringPropertyAddressTransfer', () => {
 			wallets[0],
 			PropertyGroup
 		)
-		return [propertyGroupInstance, provider]
+		return [propertyGroupInstance as any, provider]
 	}
 
 	it('イベントデータが存在しない場合はデータがリジェクトされる', async () => {

@@ -20,7 +20,7 @@
 	],
 	"overrides": [
 		{
-			"files": ["**/*.test.ts"],
+			"files": ["test/**/*.ts"],
 			"rules": {
 				"functional/no-expression-statement": "off",
 				"functional/functional-parameters": "off",

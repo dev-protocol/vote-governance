@@ -17,7 +17,7 @@ describe('getDevContract', () => {
 		)
 		await propertyGroupInstance.addGroup(wallets[1].address)
 		const instance = await getPropertyGroupContract(
-			provider,
+			provider as any,
 			propertyGroupInstance.address
 		)
 		expect(instance.address).to.be.equal(propertyGroupInstance.address)

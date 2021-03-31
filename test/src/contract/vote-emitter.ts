@@ -17,7 +17,7 @@ describe('getVoteEvent', () => {
 			[options0, options1],
 			VOTING_BLOCK
 		)
-		const events = await getVoteEvent(vote, provider)
+		const events = await getVoteEvent(vote, provider as any)
 		expect(events.length).to.be.equal(0)
 	})
 	it('can get event info.', async () => {
@@ -27,7 +27,7 @@ describe('getVoteEvent', () => {
 		)
 		await vote.vote([10, 90])
 		await vote.vote([20, 80])
-		const events = await getVoteEvent(vote, provider)
+		const events = await getVoteEvent(vote, provider as any)
 		expect(events.length).to.be.equal(2)
 		expect(events[0].args!.dispatcher).to.be.equal(vote.address)
 		expect(events[0].args!.voter).to.be.equal(wallets[0].address)
@@ -50,7 +50,7 @@ describe('getVoteEvent', () => {
 		await vote.vote([20, 80])
 		await voteEmitter.dispatch(wallets[1].address, [0, 0])
 		await voteEmitter.dispatch(wallets[2].address, [0, 0])
-		const events = await getVoteEvent(vote, provider)
+		const events = await getVoteEvent(vote, provider as any)
 		expect(events.length).to.be.equal(2)
 		expect(events[0].args!.dispatcher).to.be.equal(vote.address)
 		expect(events[0].args!.voter).to.be.equal(wallets[0].address)

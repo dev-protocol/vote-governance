@@ -17,8 +17,8 @@ describe('getDevContract', () => {
 		)
 		await addressConfigInstance.setToken(wallets[1].address)
 		await addressConfigInstance.setPropertyGroup(wallets[2].address)
-		const instance = await getAddressConfigContract(
-			provider,
+		const instance = getAddressConfigContract(
+			provider as any,
 			addressConfigInstance.address
 		)
 		expect(instance.address).to.be.equal(addressConfigInstance.address)

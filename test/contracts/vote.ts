@@ -61,7 +61,7 @@ describe('Vote', () => {
 				[options0, options1],
 				VOTING_BLOCK
 			)
-			await mine(provider, VOTING_BLOCK)
+			await mine(provider as any, VOTING_BLOCK)
 
 			await expect(vote.vote([], [])).to.be.revertedWith('over the period')
 		})

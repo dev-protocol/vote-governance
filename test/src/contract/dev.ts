@@ -14,7 +14,7 @@ describe('getDevContract', () => {
 		const provider = new MockProvider()
 		const wallets = provider.getWallets()
 		const dev = await deployContract(wallets[0], Dev)
-		const instance = await getDevContract(provider, dev.address)
+		const instance = await getDevContract(provider as any, dev.address)
 		expect(instance.address).to.be.equal(dev.address)
 	})
 })
@@ -31,12 +31,12 @@ describe('getDevTransferEvent', () => {
 		await devWallet1.transfer(wallets[0].address, 5000)
 		const devWallet2 = dev.connect(wallets[2])
 		await devWallet2.transfer(wallets[0].address, 5000)
-		return [provider, dev]
+		return [provider, dev as any]
 	}
 
 	it('Get the Transfer event of the address specified by the destination.', async () => {
 		const [provider, dev] = await init()
-		const instance = await getDevContract(provider, dev.address)
+		const instance = await getDevContract(provider as any, dev.address)
 		const blockNumber = await provider.getBlockNumber()
 		const address = provider.getWallets()[0].address
 		const events = await getDevTransferEvent(
@@ -53,7 +53,7 @@ describe('getDevTransferEvent', () => {
 	})
 	it('Get the Transfer event of the address specified by the sender.', async () => {
 		const [provider, dev] = await init()
-		const instance = await getDevContract(provider, dev.address)
+		const instance = await getDevContract(provider as any, dev.address)
 		const blockNumber = await provider.getBlockNumber()
 		const address = provider.getWallets()[0].address
 		const events = await getDevTransferEvent(
