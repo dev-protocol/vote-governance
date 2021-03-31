@@ -19,7 +19,7 @@ export default [
 	},
 	{
 		input: ['dist/src/**/*.d.ts', '!**/*.test.d.ts'],
-		output: [{ file: 'dist/vote-governance.d.ts', format: 'es' }],
+		output: [{ file: 'dist/vote-count-resolver.d.ts', format: 'es' }],
 		plugins: [multi(), dts()],
 	},
 ]
