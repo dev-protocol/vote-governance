@@ -68,7 +68,7 @@ const getCounts = (
 	analyzedVoteData: readonly AnalyzedVoteData[],
 	optionsCount: number
 ): readonly BigNumber[] => {
-	const rankList = [...Array(optionsCount)].map((_, i) => i)
+	const rankList = [...Array(optionsCount)].fill(0).map((_, i) => i)
 	return rankList.map((rank) => {
 		const voteCounts = analyzedVoteData
 			.filter((data) => {
