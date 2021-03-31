@@ -6,9 +6,8 @@ import {IVoteEmitter} from "contracts/interface/IVoteEmitter.sol";
 contract VoteEmitter is IVoteEmitter {
 	function dispatch(
 		address voter,
-		uint8[] memory options,
 		uint8[] memory percentiles
 	) external override {
-		emit Vote(msg.sender, voter, options, percentiles);
+		emit Vote(msg.sender, voter, percentiles);
 	}
 }
