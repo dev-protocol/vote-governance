@@ -50,8 +50,8 @@ export const filteringPropertyAddressTransfer = async (
 	index: TransferEventIndex,
 	propertyGroupInstance: Contract
 ): Promise<readonly Event[]> => {
-	return Promise.all(
-		events.filter(async (event) => {
+	const tmp = await Promise.all(
+		events.map(async (event) => {
 			const address =
 				typeof event.args === 'undefined' ? undefined : event.args[index]
 			return typeof address === 'undefined'
@@ -59,4 +59,5 @@ export const filteringPropertyAddressTransfer = async (
 				: await propertyGroupInstance.isGroup(address)
 		})
 	)
+	return events.filter((_, i)=>tmp[i])
 }
