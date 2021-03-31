@@ -20,7 +20,7 @@ describe('Vote', () => {
 		const wallets = provider.getWallets()
 		const voteEmitter = await deployContract(wallets[0], VoteEmitter)
 		const vote = await deployContract(wallets[0], Vote, [
-			'subject',
+			'dummy-subject',
 			'dummy-body',
 			[options0, options1],
 			'dummy-body-mime-type',
@@ -34,8 +34,9 @@ describe('Vote', () => {
 
 	describe('constructor', () => {
 		it('Internal variables are recorded.', async () => {
-			const [vote, voteEmitter, , blockNUmber] = await init()
-			expect(await vote.subject()).to.be.equal('subject')
+			const [vote, voteEmitter, , blockNUmber, wallets] = await init()
+			expect(await vote.proposer()).to.be.equal(wallets[0].address)
+			expect(await vote.subject()).to.be.equal('dummy-subject')
 			expect(await vote.body()).to.be.equal('dummy-body')
 			expect(await vote.options(0)).to.be.equal(options0)
 			expect(await vote.options(1)).to.be.equal(options1)
@@ -47,17 +48,18 @@ describe('Vote', () => {
 	})
 	describe('attributes', () => {
 		it('Internal variables are recorded.', async () => {
-			const [vote, , , blockNUmber] = await init()
+			const [vote, , , blockNUmber, wallets] = await init()
 			const attributes = await vote.attributes()
-			expect(attributes[0]).to.be.equal('subject')
-			expect(attributes[1]).to.be.equal('dummy-body')
-			expect((attributes[2] as BigNumber).toString()).to.be.equal(
+			expect(attributes.proposer).to.be.equal(wallets[0].address)
+			expect(attributes.subject).to.be.equal('dummy-subject')
+			expect(attributes.body).to.be.equal('dummy-body')
+			expect((attributes.period as BigNumber).toString()).to.be.equal(
 				(blockNUmber + VOTING_BLOCK).toString()
 			)
-			expect(attributes[3][0]).to.be.equal(options0)
-			expect(attributes[3][1]).to.be.equal(options1)
-			expect(attributes[4]).to.be.equal('dummy-body-mime-type')
-			expect(attributes[5]).to.be.equal('dummy-option-mime-type')
+			expect(attributes.options[0]).to.be.equal(options0)
+			expect(attributes.options[1]).to.be.equal(options1)
+			expect(attributes.bodyMimeType).to.be.equal('dummy-body-mime-type')
+			expect(attributes.optionsMimeType).to.be.equal('dummy-option-mime-type')
 		})
 	})
 	describe('vote', () => {
