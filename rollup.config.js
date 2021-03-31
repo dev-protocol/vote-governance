@@ -15,7 +15,7 @@ export default [
 				format: 'cjs',
 			},
 		],
-		plugins: [multi(), typescript()],
+		plugins: [multi(), typescript({ module: 'esnext' })],
 	},
 	{
 		input: ['dist/src/**/*.d.ts', '!**/*.test.d.ts'],
