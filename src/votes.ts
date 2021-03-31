@@ -1,4 +1,9 @@
-import { BaseProvider } from '@ethersproject/providers'
+import {
+	BaseProvider,
+	JsonRpcProvider,
+	Web3Provider,
+	WebSocketProvider,
+} from '@ethersproject/providers'
 import {
 	getVoteContract,
 	getVoteEvent,
@@ -15,7 +20,7 @@ import { VoteInfo } from './types'
 
 export const getVotes = async (
 	voteAddress: string,
-	provider: BaseProvider
+	provider: BaseProvider | JsonRpcProvider | Web3Provider | WebSocketProvider
 ): Promise<readonly VoteInfo[]> => {
 	const addressConfigAddress = await getAddressConfigAddress(provider)
 	const addressConfigInstance = getAddressConfigContract(
