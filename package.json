@@ -15,7 +15,9 @@
 		"!**/*.test.*"
 	],
 	"scripts": {
-		"test": "mocha --require ts-node/register 'test/**/*.ts' --timeout 300000 --parallel",
+		"test": "yarn test:contracts && yarn test:libs",
+		"test:contracts": "mocha --require ts-node/register 'test/contracts/**/*.ts' --timeout 300000 --parallel",
+		"test:libs": "mocha --require ts-node/register 'test/src/**/*.ts' --timeout 300000 --parallel",
 		"pretest": "yarn generate",
 		"generate": "waffle waffle-config.json",
 		"pregenerate": "yarn clean",
@@ -26,7 +28,7 @@
 		"build": "tsc -p tsconfig.build.json && rollup -c",
 		"prebuild": "yarn generate",
 		"clean": "rimraf scripts/**/*.js build && rimraf dist",
-		"prepack": "yarn test && yarn build",
+		"prepack": "yarn build && yarn test:libs",
 		"prepare": "husky install"
 	},
 	"author": "",

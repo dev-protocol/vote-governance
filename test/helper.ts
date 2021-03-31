@@ -1,13 +1,19 @@
-import { Contract, Wallet } from 'ethers'
 import { deployContract, MockProvider } from 'ethereum-waffle'
 import Vote from '../build/Vote.json'
 import VoteEmitter from '../build/VoteEmitter.json'
+import { PromiseValue } from 'type-fest'
 
 export const deployVoteRelationContract = async (
 	options: readonly string[],
 	votingBlock: number
 ): Promise<
-	readonly [Contract, Contract, MockProvider, number, readonly Wallet[]]
+	readonly [
+		PromiseValue<ReturnType<typeof deployContract>>,
+		PromiseValue<ReturnType<typeof deployContract>>,
+		MockProvider,
+		number,
+		ReturnType<MockProvider['getWallets']>
+	]
 > => {
 	const provider = new MockProvider()
 	const wallets = provider.getWallets()
