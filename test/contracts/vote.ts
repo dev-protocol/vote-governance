@@ -58,10 +58,13 @@ describe('Vote', () => {
 	describe('vote', () => {
 		describe('success', () => {
 			it('save vote infomation.', async () => {
-				const [vote, voteEmitter, , , wallets] = await deployVoteRelationContract(
-					[options0, options1],
-					VOTING_BLOCK
-				)
+				const [
+					vote,
+					voteEmitter,
+					,
+					,
+					wallets,
+				] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
 				const isAlreadyVote = await vote.isAlreadyVote(wallets[0].address)
 				expect(isAlreadyVote).to.be.equal(false)
 				await vote.vote([40, 60])
