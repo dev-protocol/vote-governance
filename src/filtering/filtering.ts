@@ -1,4 +1,6 @@
 import { Event, Contract, BigNumber } from 'ethers'
+import pRetry from 'p-retry'
+import { add, always } from 'ramda'
 import { VoteData } from './../types'
 
 export const filteringValidData = (
@@ -45,6 +47,8 @@ export const TRANSFER_EVENT_INDEX_TO = 1
 
 export type TransferEventIndex = 0 | 1
 
+const cache = new Map<string, boolean>()
+
 export const filteringPropertyAddressTransfer = async (
 	events: readonly Event[],
 	index: TransferEventIndex,
@@ -56,7 +60,17 @@ export const filteringPropertyAddressTransfer = async (
 				typeof event.args === 'undefined' ? undefined : event.args[index]
 			return typeof address === 'undefined'
 				? false
-				: await propertyGroupInstance.isGroup(address)
+				: // eslint-disable-next-line functional/functional-parameters
+				  await pRetry(() => {
+						const fromCache = cache.get(address)
+						return typeof fromCache === 'boolean'
+							? fromCache
+							: propertyGroupInstance.isGroup(address).then((res: boolean) => {
+									// eslint-disable-next-line functional/no-expression-statement
+									cache.set(address, res)
+									return res
+							  })
+				  })
 		})
 	)
 	return events.filter((_, i) => tmp[i])
