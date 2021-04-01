@@ -142,7 +142,7 @@ describe('filteringPropertyAddressTransfer', () => {
 		return [propertyGroupInstance as any, provider]
 	}
 
-	it('イベントデータが存在しない場合はデータがリジェクトされる', async () => {
+	it('If event data does not exist, it will be rejected.', async () => {
 		const [propertyGroup] = await init()
 		const data = {
 			args: undefined,
@@ -154,7 +154,7 @@ describe('filteringPropertyAddressTransfer', () => {
 		)
 		expect(filteredData.length).to.be.equal(0)
 	})
-	it('Propertyアドレスではない場合、リジェクトされる', async () => {
+	it('If it is not a Property address, it will be rejected.', async () => {
 		const [propertyGroup, provider] = await init()
 		const data = {
 			args: { 0: provider.createEmptyWallet().address },
@@ -166,7 +166,7 @@ describe('filteringPropertyAddressTransfer', () => {
 		)
 		expect(filteredData.length).to.be.equal(0)
 	})
-	it('Propertyアドレスの場合、リジェクトされない(from)', async () => {
+	it('Property addresses will not be rejected.(from)', async () => {
 		const [propertyGroup, provider] = await init()
 		const propertyAddress = provider.createEmptyWallet().address
 		const data = {
@@ -180,7 +180,7 @@ describe('filteringPropertyAddressTransfer', () => {
 		)
 		expect(filteredData.length).to.be.equal(1)
 	})
-	it('Propertyアドレスの場合、リジェクトされない(to)', async () => {
+	it('Property addresses will not be rejected.(to)', async () => {
 		const [propertyGroup, provider] = await init()
 		const propertyAddress = provider.createEmptyWallet().address
 		const data = {
@@ -194,7 +194,7 @@ describe('filteringPropertyAddressTransfer', () => {
 		)
 		expect(filteredData.length).to.be.equal(1)
 	})
-	it('該当するデータのみ返却される', async () => {
+	it('Only relevant data will be returned.', async () => {
 		const [propertyGroup, provider] = await init()
 		const propertyAddress = provider.createEmptyWallet().address
 		const data1 = {

@@ -7,7 +7,7 @@ import { deployContract, MockProvider } from 'ethereum-waffle'
 import { getPropertyGroupContract } from '../../../src/contract'
 import PropertyGroup from '../../../build/PropertyGroup.json'
 
-describe('getDevContract', () => {
+describe('getPropertyGroupContract', () => {
 	it('Get the PropertyGroup instance of the mock environment.', async () => {
 		const provider = new MockProvider()
 		const wallets = provider.getWallets()

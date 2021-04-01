@@ -66,8 +66,10 @@
 	"dependencies": {
 		"@devprotocol/util-ts": "^2.2.1",
 		"@openzeppelin/contracts": "3.4.1",
+		"@types/sinon": "9.0.11",
 		"p-retry": "^4.5.0",
-		"ramda": "^0.27.1"
+		"ramda": "0.27.1",
+		"sinon": "10.0.0"
 	},
 	"peerDependencies": {
 		"ethers": "^5.1.0"
