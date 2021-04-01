@@ -63,7 +63,7 @@ export const filteringPropertyAddressTransfer = async (
 				: // eslint-disable-next-line functional/functional-parameters
 				  await pRetry(() => {
 						const fromCache = cache.get(address)
-						return fromCache
+						return typeof fromCache === 'boolean'
 							? fromCache
 							: propertyGroupInstance.isGroup(address).then((res: boolean) => {
 									// eslint-disable-next-line functional/no-expression-statement
