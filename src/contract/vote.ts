@@ -2,7 +2,6 @@ import { Contract, BigNumber } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 import { VoteAttributes } from './../types'
 import pRetry from 'p-retry'
-import { always } from 'ramda'
 
 export const getVoteContract = (
 	address: string,

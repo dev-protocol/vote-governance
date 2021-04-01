@@ -56,27 +56,46 @@ describe('Vote', () => {
 		})
 	})
 	describe('vote', () => {
-		it('If you miss the voting deadline, you will get an error.', async () => {
-			const [vote, , provider] = await deployVoteRelationContract(
-				[options0, options1],
-				VOTING_BLOCK
-			)
-			await mine(provider as any, VOTING_BLOCK)
-
-			await expect(vote.vote([], [])).to.be.revertedWith('over the period')
+		describe('success', () => {
+			it('save vote infomation.', async () => {
+				const [
+					vote,
+					voteEmitter,
+					,
+					,
+					wallets,
+				] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
+				const isAlreadyVote = await vote.isAlreadyVote(wallets[0].address)
+				expect(isAlreadyVote).to.be.equal(false)
+				await vote.vote([40, 60])
+				const isAlreadyVoteAfter = await vote.isAlreadyVote(wallets[0].address)
+				expect(isAlreadyVoteAfter).to.be.equal(true)
+				const filterVote = voteEmitter.filters.Vote()
+				const events = await voteEmitter.queryFilter(filterVote)
+				expect(events[0].args?.[0]).to.be.equal(vote.address)
+				expect(events[0].args?.[1]).to.be.equal(wallets[0].address)
+				expect(events[0].args?.[2][0]).to.be.equal(40)
+				expect(events[0].args?.[2][1]).to.be.equal(60)
+			})
 		})
-		it('save vote infomation.', async () => {
-			const [vote, voteEmitter, , , wallets] = await deployVoteRelationContract(
-				[options0, options1],
-				VOTING_BLOCK
-			)
-			await vote.vote([40, 60])
-			const filterVote = voteEmitter.filters.Vote()
-			const events = await voteEmitter.queryFilter(filterVote)
-			expect(events[0].args?.[0]).to.be.equal(vote.address)
-			expect(events[0].args?.[1]).to.be.equal(wallets[0].address)
-			expect(events[0].args?.[2][0]).to.be.equal(40)
-			expect(events[0].args?.[2][1]).to.be.equal(60)
+		describe('fail', () => {
+			it('If you miss the voting deadline, you will get an error.', async () => {
+				const [vote, , provider] = await deployVoteRelationContract(
+					[options0, options1],
+					VOTING_BLOCK
+				)
+				await mine(provider as any, VOTING_BLOCK)
+
+				await expect(vote.vote([], [])).to.be.revertedWith('over the period')
+			})
+			it('cannot vote more than once.', async () => {
+				const [vote] = await deployVoteRelationContract(
+					[options0, options1],
+					VOTING_BLOCK
+				)
+				await vote.vote([40, 60])
+				await expect(vote.vote([], [])).to.be.revertedWith('already vote')
+			})
 		})
 	})
 })

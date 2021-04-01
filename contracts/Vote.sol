@@ -23,6 +23,8 @@ contract Vote {
 	string public bodyMimeType;
 	string public optionsMimeType;
 
+	mapping(address => bool) public isAlreadyVote;
+
 	constructor(
 		string memory _subject,
 		string memory _body,
@@ -57,6 +59,8 @@ contract Vote {
 
 	function vote(uint8[] memory percentiles) external {
 		require(block.number < period, "over the period");
+		require(isAlreadyVote[msg.sender] == false, "already vote");
+		isAlreadyVote[msg.sender] = true;
 		IVoteEmitter(voteEmitter).dispatch(msg.sender, percentiles);
 	}
 }
