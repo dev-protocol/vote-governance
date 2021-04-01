@@ -29,7 +29,7 @@ export const getVotes = async (
 	)
 	const devAddress = await addressConfigInstance.token()
 	const devInstance = getDevContract(provider, devAddress)
-	const propertyGroupAddress = await addressConfigInstance.token()
+	const propertyGroupAddress = await addressConfigInstance.propertyGroup()
 	const propertyGroupInstance = await getPropertyGroupContract(
 		provider,
 		propertyGroupAddress
