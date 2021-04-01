@@ -1,6 +1,5 @@
 import { Event, Contract, BigNumber } from 'ethers'
 import pRetry from 'p-retry'
-import { add, always } from 'ramda'
 import { VoteData } from './../types'
 
 export const filteringValidData = (

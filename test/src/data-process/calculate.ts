@@ -6,7 +6,7 @@
 import { expect } from 'chai'
 import { describe } from 'mocha'
 import { BigNumber } from 'ethers'
-import { sumTransferEventValue, calculateVote } from '../../../src/data-process'
+import { sumTransferEventValue } from '../../../src/data-process'
 
 describe('sumTransferEventValue', () => {
 	it('The total transfer amount will be returned.', async () => {
