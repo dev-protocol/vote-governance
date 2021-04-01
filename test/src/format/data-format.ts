@@ -9,61 +9,75 @@ import { expect } from 'chai'
 import { describe } from 'mocha'
 import sinon from 'sinon'
 import { BigNumber, Contract } from 'ethers'
-import {
-	formatVoteEventData
-} from '../../../src/format'
+import { formatVoteEventData } from '../../../src/format'
 import * as format_details_modules from '../../../src/format/data-format-details'
 import { Result } from '@ethersproject/abi'
 import { VoteData } from '../../../src/types'
 
 describe('convertEventToVote', () => {
-	let convertEventToVote: sinon.SinonStub<[args: Result, devInstance: Contract, propertyGroupInstance: Contract, toBlock: number], Promise<VoteData>>
+	let convertEventToVote: sinon.SinonStub<
+		[
+			args: Result,
+			devInstance: Contract,
+			propertyGroupInstance: Contract,
+			toBlock: number
+		],
+		Promise<VoteData>
+	>
 	before(() => {
-		convertEventToVote = sinon.stub(format_details_modules, 'convertEventToVote')
+		convertEventToVote = sinon.stub(
+			format_details_modules,
+			'convertEventToVote'
+		)
 		convertEventToVote.onCall(0).resolves({
 			isValid: true,
 			voter: '0x.............',
 			percentiles: [10, 90],
-			value: BigNumber.from(100)
+			value: BigNumber.from(100),
 		} as VoteData)
 		convertEventToVote.onCall(1).resolves({
 			isValid: true,
 			voter: '0xa.............',
 			percentiles: [20, 80],
-			value: BigNumber.from(200)
+			value: BigNumber.from(200),
 		} as VoteData)
 		convertEventToVote.onCall(2).resolves({
 			isValid: true,
 			voter: '0xb.............',
 			percentiles: [30, 70],
-			value: BigNumber.from(300)
+			value: BigNumber.from(300),
 		} as VoteData)
 	})
 	it('Event data will be converted to voting data.', async () => {
 		const events = [
 			{
 				args: {
-					test: ''
-				}
+					test: '',
+				},
 			},
 			{
-				args: undefined
-			},
-			{
-				args: {
-					test: ''
-				}
-			},
-			{
-				args: undefined
+				args: undefined,
 			},
 			{
 				args: {
-					test: ''
-				}
+					test: '',
+				},
+			},
+			{
+				args: undefined,
+			},
+			{
+				args: {
+					test: '',
+				},
 			},
 		]
-		const voteData = await formatVoteEventData(events as any, {} as any, {} as any, 100)
+		const voteData = await formatVoteEventData(
+			events as any,
+			{} as any,
+			{} as any,
+			100
+		)
 		expect(voteData.length).to.be.equal(5)
 
 		expect(voteData[0].isValid).to.be.equal(true)
@@ -98,4 +112,3 @@ describe('convertEventToVote', () => {
 		convertEventToVote.restore()
 	})
 })
-

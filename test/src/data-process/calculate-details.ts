@@ -121,7 +121,7 @@ describe('analysisVoteData', () => {
 	it('Calculate voting data(ver1).', async () => {
 		const data = {
 			percentiles: [10, 70, 20],
-			value: BigNumber.from(1200)
+			value: BigNumber.from(1200),
 		}
 		const func = analysisVoteData(3)
 		const analyzedData = func(data as any)
@@ -142,7 +142,7 @@ describe('analysisVoteData', () => {
 	it('Calculate voting data(ver2).', async () => {
 		const data = {
 			percentiles: [60, 40],
-			value: BigNumber.from(3000)
+			value: BigNumber.from(3000),
 		}
 		const func = analysisVoteData(2)
 		const analyzedData = func(data as any)

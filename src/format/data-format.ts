@@ -18,7 +18,12 @@ export const formatVoteEventData = async (
 						percentiles: [],
 						value: BigNumber.from(0),
 				  } as VoteData)
-				: await convertEventToVote(event.args, devInstance, propertyGroupInstance, toBlock)
+				: await convertEventToVote(
+						event.args,
+						devInstance,
+						propertyGroupInstance,
+						toBlock
+				  )
 		})
 	)
 	return formattedData
