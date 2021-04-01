@@ -1,6 +1,8 @@
 import { Contract, BigNumber } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 import { VoteAttributes } from './../types'
+import pRetry from 'p-retry'
+import { always } from 'ramda'
 
 export const getVoteContract = (
 	address: string,
@@ -77,7 +79,8 @@ export const getVoteContract = (
 export const getVoteAttributes = async (
 	voteInstance: Contract
 ): Promise<VoteAttributes> => {
-	const tmp = await voteInstance.attributes()
+	// eslint-disable-next-line functional/functional-parameters
+	const tmp = await pRetry(() => voteInstance.attributes())
 	return {
 		proposer: tmp.proposer,
 		subject: tmp.subject,
