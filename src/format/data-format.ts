@@ -1,7 +1,6 @@
 import { Event, BigNumber, Contract } from 'ethers'
-import { Result } from '@ethersproject/abi'
 import { VoteData } from './../types'
-import { getAllStakingValue } from './../staking'
+import { convertEventToVote } from './data-format-details'
 
 export const formatVoteEventData = async (
 	events: readonly Event[],
@@ -19,29 +18,8 @@ export const formatVoteEventData = async (
 						percentiles: [],
 						value: BigNumber.from(0),
 				  } as VoteData)
-				: await format(event.args, devInstance, propertyGroupInstance, toBlock)
+				: await convertEventToVote(event.args, devInstance, propertyGroupInstance, toBlock)
 		})
 	)
 	return formattedData
-}
-
-const format = async (
-	args: Result,
-	devInstance: Contract,
-	propertyGroupInstance: Contract,
-	toBlock: number
-): Promise<VoteData> => {
-	const percentiles = args.percentiles as readonly number[]
-	const stakingvalue = await getAllStakingValue(
-		devInstance,
-		propertyGroupInstance,
-		args.voter,
-		toBlock
-	)
-	return {
-		isValid: true,
-		voter: args.voter,
-		percentiles: percentiles,
-		value: stakingvalue,
-	} as VoteData
 }

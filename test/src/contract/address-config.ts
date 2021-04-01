@@ -7,7 +7,7 @@ import { deployContract, MockProvider } from 'ethereum-waffle'
 import { getAddressConfigContract } from '../../../src/contract/address-config'
 import AddressConfig from '../../../build/AddressConfig.json'
 
-describe('getDevContract', () => {
+describe('getAddressConfigContract', () => {
 	it('Get the AddressConfig instance of the mock environment.', async () => {
 		const provider = new MockProvider()
 		const wallets = provider.getWallets()

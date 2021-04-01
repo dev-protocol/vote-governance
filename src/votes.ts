@@ -50,8 +50,3 @@ export const getVotes = async (
 	)
 	return calculateVote(voteAttributes.options, filteredData)
 }
-
-// TODO
-// test
-// trycatch
-// npm publish
