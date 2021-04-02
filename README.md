@@ -1,11 +1,24 @@
-# template-repos-ts-sol
+# Vote Governance
 
-Template repository for using TypeScript and Solidity
+Dev Protocol voting system
 
 # Usage
 
-Create a repository using this template; just runs following command.
-
+## how to test
 ```bash
 yarn
+yarn test
+```
+
+## how to use
+### contract
+
+```bash
+(after build)
+node scripts/deploy.js
+```
+### library
+
+```bash
+npm install @devprotocol/vote-count-resolver
 ```
