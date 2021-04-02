@@ -34,7 +34,6 @@ export const getVotes = async (
 		provider,
 		propertyGroupAddress
 	)
-
 	const voteInstance = getVoteContract(voteAddress, provider)
 	const voteAllLogs = await getVoteEvent(voteInstance, provider)
 	const voteAttributes = await getVoteAttributes(voteInstance)
