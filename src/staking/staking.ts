@@ -13,25 +13,25 @@ export const getAllStakingValue = async (
 	user: string,
 	toBlock: number
 ): Promise<BigNumber> => {
-	const fromUserEvent = await getDevTransferEvent(
+	const fromUserEvents = await getDevTransferEvent(
 		devInstance,
 		user,
 		null,
 		toBlock
 	)
-	const ToUserEvent = await getDevTransferEvent(
+	const toUserEvents = await getDevTransferEvent(
 		devInstance,
 		null,
 		user,
 		toBlock
 	)
 	const filteringFromUserEvent = await filteringPropertyAddressTransfer(
-		fromUserEvent,
+		fromUserEvents,
 		TRANSFER_EVENT_INDEX_TO,
 		propertyGroupInstance
 	)
 	const filteringToUserEvent = await filteringPropertyAddressTransfer(
-		ToUserEvent,
+		toUserEvents,
 		TRANSFER_EVENT_INDEX_FROM,
 		propertyGroupInstance
 	)

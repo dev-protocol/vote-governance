@@ -70,6 +70,15 @@ describe('getCount', () => {
 		const voteData = getCount(counts, 3)
 		expect(voteData).to.be.equal('1100')
 	})
+	it('Calculated with the specified multiplier(ver3).', async () => {
+		const counts = [
+			BigNumber.from(24000),
+			BigNumber.from(6000),
+			BigNumber.from(0),
+		]
+		const voteData = getCount(counts, 3)
+		expect(voteData).to.be.equal('84000')
+	})
 })
 
 describe('getCounts', () => {
