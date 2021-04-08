@@ -39,7 +39,7 @@
 		"@types/chai": "4.2.16",
 		"@types/dotenv": "8.2.0",
 		"@types/mocha": "8.2.2",
-		"@types/ramda": "0.27.39",
+		"@types/ramda": "0.27.40",
 		"@typescript-eslint/eslint-plugin": "4.21.0",
 		"@typescript-eslint/parser": "4.21.0",
 		"chai": "4.3.4",
