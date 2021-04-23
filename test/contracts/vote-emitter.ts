@@ -34,6 +34,16 @@ describe('VoteEmitter', () => {
 			expect(events[0].args?.[2][0]).to.be.equal(40)
 			expect(events[0].args?.[2][1]).to.be.equal(60)
 		})
+		it('save vote infomation.(vote 0)', async () => {
+			const [voteEmitter, wallets] = await init()
+			await voteEmitter.dispatch(wallets[1].address, [0, 100])
+			const filterVote = voteEmitter.filters.Vote(wallets[0].address)
+			const events = await voteEmitter.queryFilter(filterVote)
+			expect(events[0].args?.[0]).to.be.equal(wallets[0].address)
+			expect(events[0].args?.[1]).to.be.equal(wallets[1].address)
+			expect(events[0].args?.[2][0]).to.be.equal(0)
+			expect(events[0].args?.[2][1]).to.be.equal(100)
+		})
 		it('get use index.', async () => {
 			const [voteEmitter, wallets] = await init()
 			await voteEmitter.dispatch(wallets[1].address, [40, 60])

@@ -77,6 +77,26 @@ describe('Vote', () => {
 				expect(events[0].args?.[2][0]).to.be.equal(40)
 				expect(events[0].args?.[2][1]).to.be.equal(60)
 			})
+			it('save vote infomation.(vote 0)', async () => {
+				const [
+					vote,
+					voteEmitter,
+					,
+					,
+					wallets,
+				] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
+				const isAlreadyVote = await vote.isAlreadyVote(wallets[0].address)
+				expect(isAlreadyVote).to.be.equal(false)
+				await vote.vote([100, 0])
+				const isAlreadyVoteAfter = await vote.isAlreadyVote(wallets[0].address)
+				expect(isAlreadyVoteAfter).to.be.equal(true)
+				const filterVote = voteEmitter.filters.Vote()
+				const events = await voteEmitter.queryFilter(filterVote)
+				expect(events[0].args?.[0]).to.be.equal(vote.address)
+				expect(events[0].args?.[1]).to.be.equal(wallets[0].address)
+				expect(events[0].args?.[2][0]).to.be.equal(100)
+				expect(events[0].args?.[2][1]).to.be.equal(0)
+			})
 		})
 		describe('fail', () => {
 			it('If you miss the voting deadline, you will get an error.', async () => {
