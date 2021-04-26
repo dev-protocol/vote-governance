@@ -82,6 +82,21 @@ describe('filteringValidData', () => {
 		expect(filteredData[0].percentiles[1]).to.be.equal(90)
 		expect(filteredData[0].value.toString()).to.be.equal('100')
 	})
+	it('It does not matter if the ballot contains zeroes..', async () => {
+		const data = {
+			isValid: true,
+			voter: 'dummy',
+			percentiles: [0, 100],
+			value: BigNumber.from(1000),
+		} as VoteData
+		const filteredData = filteringValidData(2, [data])
+		expect(filteredData.length).to.be.equal(1)
+		expect(filteredData[0].isValid).to.be.equal(true)
+		expect(filteredData[0].voter).to.be.equal('dummy')
+		expect(filteredData[0].percentiles[0]).to.be.equal(0)
+		expect(filteredData[0].percentiles[1]).to.be.equal(100)
+		expect(filteredData[0].value.toString()).to.be.equal('1000')
+	})
 	it('Only complete data will be returned.', async () => {
 		const data = [
 			{
