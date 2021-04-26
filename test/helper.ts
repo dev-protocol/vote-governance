@@ -26,6 +26,7 @@ export const deployVoteRelationContract = async (
 		'dummy-option-mime-type',
 		voteEmitter.address,
 		votingBlock,
+		wallets[0].address,
 	])
 	const blockNumber = await provider.getBlockNumber()
 	return [vote, voteEmitter, provider, blockNumber, wallets]

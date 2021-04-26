@@ -32,10 +32,11 @@ contract Vote {
 		string memory _bodyMimeType,
 		string memory _optionsMimeType,
 		address _voteEmitter,
-		uint256 _votingBlock
+		uint256 _votingBlock,
+		address _proposer
 	) {
 		voteEmitter = _voteEmitter;
-		proposer = msg.sender;
+		proposer = _proposer;
 		subject = _subject;
 		body = _body;
 		period = _votingBlock + block.number;
