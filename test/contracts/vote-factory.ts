@@ -21,14 +21,15 @@ describe('VoteFactory', () => {
 		it('create vote contract.', async () => {
 			const provider = new MockProvider()
 			const wallets = provider.getWallets()
-			const voteFactory = await deployContract(wallets[0], VoteFactory)
+			const voteFactory = await deployContract(wallets[0], VoteFactory, [
+				wallets[1].address,
+			])
 			await voteFactory.create(
 				'dummy-subject',
 				'dummy-body',
 				[options0, options1],
 				'dummy-body-mime-type',
 				'dummy-option-mime-type',
-				wallets[1].address,
 				VOTING_BLOCK
 			)
 			const blockNumber = await provider.getBlockNumber()
