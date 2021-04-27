@@ -5,7 +5,13 @@ pragma experimental ABIEncoderV2;
 import {Vote} from "contracts/Vote.sol";
 
 contract VoteFactory {
+	address public voteEmitter;
+
 	event VoteCreate(address indexed sender, address vote);
+
+	constructor(address _voteEmitter) {
+		voteEmitter = _voteEmitter;
+	}
 
 	function create(
 		string memory _subject,
@@ -13,7 +19,6 @@ contract VoteFactory {
 		string[] memory _options,
 		string memory _bodyMimeType,
 		string memory _optionsMimeType,
-		address _voteEmitter,
 		uint256 _votingBlock
 	) external {
 		Vote vote =
@@ -23,7 +28,7 @@ contract VoteFactory {
 				_options,
 				_bodyMimeType,
 				_optionsMimeType,
-				_voteEmitter,
+				voteEmitter,
 				_votingBlock,
 				msg.sender
 			);
