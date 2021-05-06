@@ -36,10 +36,13 @@ const deploy = async (): Promise<void> => {
 		wallet
 	)
 
-	const factroyContract = await voteFactoryFactory.deploy(VOTE_EMITTER_ADDRESS, {
-		gasLimit: 200000,
-		gasPrice: Number(await gasPrice()),
-	})
+	const factroyContract = await voteFactoryFactory.deploy(
+		VOTE_EMITTER_ADDRESS,
+		{
+			gasLimit: 200000,
+			gasPrice: Number(await gasPrice()),
+		}
+	)
 
 	await factroyContract.deployed()
 
