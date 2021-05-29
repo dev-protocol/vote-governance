@@ -54,7 +54,7 @@
 		"husky": "6.0.0",
 		"mocha": "8.4.0",
 		"prettier": "2.3.0",
-		"prettier-plugin-solidity": "1.0.0-beta.10",
+		"prettier-plugin-solidity": "1.0.0-beta.11",
 		"rimraf": "3.0.2",
 		"rollup": "2.50.4",
 		"rollup-plugin-dts": "3.0.2",
