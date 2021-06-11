@@ -13,13 +13,8 @@ const options1 = 'http://hogehoge/1'
 
 describe('getVoteContract', () => {
 	it('Get the property of Vote contract.', async () => {
-		const [
-			vote,
-			voteEmitter,
-			provider,
-			blockNumber,
-			wallets,
-		] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
+		const [vote, voteEmitter, provider, blockNumber, wallets] =
+			await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
 		const instance = await getVoteContract(vote.address, provider as any)
 		expect(instance.address).to.be.equal(vote.address)
 		expect(await instance.voteEmitter()).to.be.equal(voteEmitter.address)
@@ -39,13 +34,8 @@ describe('getVoteContract', () => {
 
 describe('getVoteAttributes', () => {
 	it('Get the Vote attributes.', async () => {
-		const [
-			vote,
-			,
-			provider,
-			blockNumber,
-			wallets,
-		] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
+		const [vote, , provider, blockNumber, wallets] =
+			await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
 		const instance = await getVoteContract(vote.address, provider as any)
 		const attr = await getVoteAttributes(instance)
 		expect(attr.proposer).to.be.equal(wallets[0].address)

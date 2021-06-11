@@ -18,13 +18,8 @@ describe('Vote', () => {
 
 	describe('constructor', () => {
 		it('Internal variables are recorded.', async () => {
-			const [
-				vote,
-				voteEmitter,
-				,
-				blockNumber,
-				wallets,
-			] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
+			const [vote, voteEmitter, , blockNumber, wallets] =
+				await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
 			expect(await vote.proposer()).to.be.equal(wallets[0].address)
 			expect(await vote.subject()).to.be.equal('dummy-subject')
 			expect(await vote.body()).to.be.equal('dummy-body')
@@ -58,13 +53,8 @@ describe('Vote', () => {
 	describe('vote', () => {
 		describe('success', () => {
 			it('save vote infomation.', async () => {
-				const [
-					vote,
-					voteEmitter,
-					,
-					,
-					wallets,
-				] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
+				const [vote, voteEmitter, , , wallets] =
+					await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
 				const isAlreadyVote = await vote.isAlreadyVote(wallets[0].address)
 				expect(isAlreadyVote).to.be.equal(false)
 				await vote.vote([40, 60])
@@ -78,13 +68,8 @@ describe('Vote', () => {
 				expect(events[0].args?.[2][1]).to.be.equal(60)
 			})
 			it('save vote infomation.(vote 0)', async () => {
-				const [
-					vote,
-					voteEmitter,
-					,
-					,
-					wallets,
-				] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
+				const [vote, voteEmitter, , , wallets] =
+					await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
 				const isAlreadyVote = await vote.isAlreadyVote(wallets[0].address)
 				expect(isAlreadyVote).to.be.equal(false)
 				await vote.vote([100, 0])
