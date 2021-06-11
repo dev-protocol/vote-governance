@@ -3,7 +3,6 @@
 /* eslint-disable functional/functional-parameters */
 
 import { expect, use } from 'chai'
-import { describe } from 'mocha'
 import { BigNumber } from 'ethers'
 import { solidity } from 'ethereum-waffle'
 import { mine } from '@devprotocol/util-ts'

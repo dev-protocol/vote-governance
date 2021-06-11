@@ -4,9 +4,7 @@
 /* eslint-disable functional/no-expression-statement */
 
 import { expect } from 'chai'
-import { describe } from 'mocha'
 import { BigNumber, Contract } from 'ethers'
-import { deployContract, MockProvider } from 'ethereum-waffle'
 import {
 	filteringValidData,
 	filteringPropertyAddressTransfer,
@@ -14,7 +12,7 @@ import {
 	TRANSFER_EVENT_INDEX_TO,
 } from '../../../src/filtering'
 import { VoteData } from '../../../src/types'
-import PropertyGroup from '../../../build/PropertyGroup.json'
+import { ethers } from 'hardhat'
 
 describe('filteringValidData', () => {
 	it('Data that is not valid will be rejected.', async () => {
@@ -147,14 +145,13 @@ describe('filteringValidData', () => {
 })
 
 describe('filteringPropertyAddressTransfer', () => {
-	const init = async (): Promise<readonly [Contract, MockProvider]> => {
-		const provider = new MockProvider()
-		const wallets = provider.getWallets()
-		const propertyGroupInstance = await deployContract(
-			wallets[0],
-			PropertyGroup
-		)
-		return [propertyGroupInstance as any, provider]
+	const init = async (): Promise<readonly [Contract]> => {
+		const wallets = await ethers.getSigners()
+		const factory = await ethers.getContractFactory('PropertyGroup')
+		const propertyGroupInstance = await factory.connect(wallets[0]).deploy()
+		await propertyGroupInstance.deployTransaction.wait()
+
+		return [propertyGroupInstance as any]
 	}
 
 	it('If event data does not exist, it will be rejected.', async () => {
@@ -170,9 +167,9 @@ describe('filteringPropertyAddressTransfer', () => {
 		expect(filteredData.length).to.be.equal(0)
 	})
 	it('If it is not a Property address, it will be rejected.', async () => {
-		const [propertyGroup, provider] = await init()
+		const [propertyGroup] = await init()
 		const data = {
-			args: { 0: provider.createEmptyWallet().address },
+			args: { 0: ethers.Wallet.createRandom().address },
 		}
 		const filteredData = await filteringPropertyAddressTransfer(
 			[data as any],
@@ -182,8 +179,8 @@ describe('filteringPropertyAddressTransfer', () => {
 		expect(filteredData.length).to.be.equal(0)
 	})
 	it('Property addresses will not be rejected.(from)', async () => {
-		const [propertyGroup, provider] = await init()
-		const propertyAddress = provider.createEmptyWallet().address
+		const [propertyGroup] = await init()
+		const propertyAddress = ethers.Wallet.createRandom().address
 		const data = {
 			args: { 0: propertyAddress },
 		}
@@ -196,8 +193,8 @@ describe('filteringPropertyAddressTransfer', () => {
 		expect(filteredData.length).to.be.equal(1)
 	})
 	it('Property addresses will not be rejected.(to)', async () => {
-		const [propertyGroup, provider] = await init()
-		const propertyAddress = provider.createEmptyWallet().address
+		const [propertyGroup] = await init()
+		const propertyAddress = ethers.Wallet.createRandom().address
 		const data = {
 			args: { 1: propertyAddress },
 		}
@@ -210,13 +207,13 @@ describe('filteringPropertyAddressTransfer', () => {
 		expect(filteredData.length).to.be.equal(1)
 	})
 	it('Only relevant data will be returned.', async () => {
-		const [propertyGroup, provider] = await init()
-		const propertyAddress = provider.createEmptyWallet().address
+		const [propertyGroup] = await init()
+		const propertyAddress = ethers.Wallet.createRandom().address
 		const data1 = {
 			args: { 1: propertyAddress },
 		}
 		const data2 = {
-			args: { 0: provider.createEmptyWallet() },
+			args: { 0: ethers.Wallet.createRandom() },
 		}
 		const data3 = {
 			args: undefined,

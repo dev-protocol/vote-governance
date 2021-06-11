@@ -2,7 +2,6 @@
 /* eslint-disable functional/no-expression-statement */
 
 import { expect } from 'chai'
-import { describe } from 'mocha'
 import { ethers } from 'ethers'
 import { getAddressConfigAddress } from '../../../src/contract/address'
 

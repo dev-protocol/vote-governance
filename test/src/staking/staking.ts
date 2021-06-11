@@ -6,7 +6,6 @@
 /* eslint-disable functional/prefer-readonly-type */
 
 import { expect } from 'chai'
-import { describe } from 'mocha'
 import sinon from 'sinon'
 import { Contract, Event } from 'ethers'
 import * as dev_contract_modules from '../../../src/contract/dev'

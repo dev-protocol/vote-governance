@@ -3,27 +3,34 @@
 /* eslint-disable functional/no-expression-statement */
 
 import { expect } from 'chai'
-import { describe } from 'mocha'
 import { Contract } from 'ethers'
 import { getDevContract, getDevTransferEvent } from '../../../src/contract'
-import { deployContract, MockProvider } from 'ethereum-waffle'
-import Dev from '../../../build/Dev.json'
+import { ethers } from 'hardhat'
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 
 describe('getDevContract', () => {
 	it('Get the Dev instance of the mock environment.', async () => {
-		const provider = new MockProvider()
-		const wallets = provider.getWallets()
-		const dev = await deployContract(wallets[0], Dev)
-		const instance = await getDevContract(provider as any, dev.address)
+		const wallets = await ethers.getSigners()
+		const factory = await ethers.getContractFactory('Dev')
+		const dev = await factory.connect(wallets[0]).deploy()
+		await dev.deployTransaction.wait()
+
+		const instance = await getDevContract(
+			wallets[0].provider as any,
+			dev.address
+		)
 		expect(instance.address).to.be.equal(dev.address)
 	})
 })
 
 describe('getDevTransferEvent', () => {
-	const init = async (): Promise<readonly [MockProvider, Contract]> => {
-		const provider = new MockProvider()
-		const wallets = provider.getWallets()
-		const dev = await deployContract(wallets[0], Dev)
+	const init = async (): Promise<
+		readonly [readonly SignerWithAddress[], Contract]
+	> => {
+		const wallets = await ethers.getSigners()
+		const factory = await ethers.getContractFactory('Dev')
+		const dev = await factory.connect(wallets[0]).deploy()
+		await dev.deployTransaction.wait()
 		await dev.transfer(wallets[1].address, 10000)
 		await dev.transfer(wallets[2].address, 20000)
 		await dev.transfer(wallets[3].address, 30000)
@@ -31,14 +38,17 @@ describe('getDevTransferEvent', () => {
 		await devWallet1.transfer(wallets[0].address, 5000)
 		const devWallet2 = dev.connect(wallets[2])
 		await devWallet2.transfer(wallets[0].address, 5000)
-		return [provider, dev as any]
+		return [wallets, dev as any]
 	}
 
 	it('Get the Transfer event of the address specified by the destination.', async () => {
-		const [provider, dev] = await init()
-		const instance = await getDevContract(provider as any, dev.address)
-		const blockNumber = await provider.getBlockNumber()
-		const address = provider.getWallets()[0].address
+		const [wallets, dev] = await init()
+		const instance = await getDevContract(
+			wallets[0].provider as any,
+			dev.address
+		)
+		const blockNumber = await wallets[0].provider!.getBlockNumber()
+		const address = wallets[0].address
 		const events = await getDevTransferEvent(
 			instance,
 			null,
@@ -52,10 +62,13 @@ describe('getDevTransferEvent', () => {
 		expect(events.length).to.be.equal(3)
 	})
 	it('Get the Transfer event of the address specified by the sender.', async () => {
-		const [provider, dev] = await init()
-		const instance = await getDevContract(provider as any, dev.address)
-		const blockNumber = await provider.getBlockNumber()
-		const address = provider.getWallets()[0].address
+		const [wallets, dev] = await init()
+		const instance = await getDevContract(
+			wallets[0].provider as any,
+			dev.address
+		)
+		const blockNumber = await wallets[0].provider!.getBlockNumber()
+		const address = wallets[0].address
 		const events = await getDevTransferEvent(
 			instance,
 			address,

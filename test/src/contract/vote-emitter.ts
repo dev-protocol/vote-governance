@@ -3,7 +3,6 @@
 /* eslint-disable functional/no-expression-statement */
 
 import { expect } from 'chai'
-import { describe } from 'mocha'
 import { getVoteEvent } from '../../../src/contract/vote-emitter'
 import { deployVoteRelationContract } from './../../helper'
 

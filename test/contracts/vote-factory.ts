@@ -3,12 +3,8 @@
 /* eslint-disable functional/functional-parameters */
 
 import { expect, use } from 'chai'
-import { describe } from 'mocha'
-import { Contract } from 'ethers'
 import { solidity } from 'ethereum-waffle'
-import { deployContract, MockProvider } from 'ethereum-waffle'
-import VoteFactory from '../../build/VoteFactory.json'
-import Vote from '../../build/Vote.json'
+import { ethers } from 'hardhat'
 
 use(solidity)
 
@@ -19,11 +15,13 @@ describe('VoteFactory', () => {
 
 	describe('create', () => {
 		it('create vote contract.', async () => {
-			const provider = new MockProvider()
-			const wallets = provider.getWallets()
-			const voteFactory = await deployContract(wallets[0], VoteFactory, [
-				wallets[1].address,
-			])
+			const wallets = await ethers.getSigners()
+			const factory = await ethers.getContractFactory('VoteFactory')
+			const voteFactory = await factory
+				.connect(wallets[0])
+				.deploy(wallets[1].address)
+			await voteFactory.deployTransaction.wait()
+
 			await voteFactory.create(
 				'dummy-subject',
 				'dummy-body',
@@ -32,12 +30,12 @@ describe('VoteFactory', () => {
 				'dummy-option-mime-type',
 				VOTING_BLOCK
 			)
-			const blockNumber = await provider.getBlockNumber()
+			const blockNumber = await wallets[0].provider!.getBlockNumber()
 			const filter = voteFactory.filters.VoteCreate(wallets[0].address)
 			const events = await voteFactory.queryFilter(filter)
 			expect(events[0].args?.[0]).to.be.equal(wallets[0].address)
 			const voteAddress = events[0].args?.[1]
-			const voteInstance = new Contract(voteAddress, Vote.abi, provider)
+			const voteInstance = await ethers.getContractAt('Vote', voteAddress)
 			expect(await voteInstance.proposer()).to.be.equal(wallets[0].address)
 			expect(await voteInstance.subject()).to.be.equal('dummy-subject')
 			expect(await voteInstance.body()).to.be.equal('dummy-body')

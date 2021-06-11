@@ -2,22 +2,19 @@
 /* eslint-disable functional/no-expression-statement */
 
 import { expect } from 'chai'
-import { describe } from 'mocha'
-import { deployContract, MockProvider } from 'ethereum-waffle'
 import { getPropertyGroupContract } from '../../../src/contract'
-import PropertyGroup from '../../../build/PropertyGroup.json'
+import { ethers } from 'hardhat'
 
 describe('getPropertyGroupContract', () => {
 	it('Get the PropertyGroup instance of the mock environment.', async () => {
-		const provider = new MockProvider()
-		const wallets = provider.getWallets()
-		const propertyGroupInstance = await deployContract(
-			wallets[0],
-			PropertyGroup
-		)
+		const wallets = await ethers.getSigners()
+		const factory = await ethers.getContractFactory('PropertyGroup')
+		const propertyGroupInstance = await factory.connect(wallets[0]).deploy()
+		await propertyGroupInstance.deployTransaction.wait()
+
 		await propertyGroupInstance.addGroup(wallets[1].address)
 		const instance = await getPropertyGroupContract(
-			provider as any,
+			wallets[0].provider as any,
 			propertyGroupInstance.address
 		)
 		expect(instance.address).to.be.equal(propertyGroupInstance.address)

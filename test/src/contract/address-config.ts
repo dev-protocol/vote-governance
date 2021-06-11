@@ -2,23 +2,20 @@
 /* eslint-disable functional/no-expression-statement */
 
 import { expect } from 'chai'
-import { describe } from 'mocha'
-import { deployContract, MockProvider } from 'ethereum-waffle'
 import { getAddressConfigContract } from '../../../src/contract/address-config'
-import AddressConfig from '../../../build/AddressConfig.json'
+import { ethers } from 'hardhat'
 
 describe('getAddressConfigContract', () => {
 	it('Get the AddressConfig instance of the mock environment.', async () => {
-		const provider = new MockProvider()
-		const wallets = provider.getWallets()
-		const addressConfigInstance = await deployContract(
-			wallets[0],
-			AddressConfig
-		)
+		const wallets = await ethers.getSigners()
+		const factory = await ethers.getContractFactory('AddressConfig')
+		const addressConfigInstance = await factory.connect(wallets[0]).deploy()
+		await addressConfigInstance.deployTransaction.wait()
+
 		await addressConfigInstance.setToken(wallets[1].address)
 		await addressConfigInstance.setPropertyGroup(wallets[2].address)
 		const instance = getAddressConfigContract(
-			provider as any,
+			wallets[0].provider as any,
 			addressConfigInstance.address
 		)
 		expect(instance.address).to.be.equal(addressConfigInstance.address)

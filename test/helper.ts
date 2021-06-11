@@ -1,7 +1,7 @@
-import { deployContract, MockProvider } from 'ethereum-waffle'
-import Vote from '../build/Vote.json'
-import VoteEmitter from '../build/VoteEmitter.json'
+import { deployContract } from 'ethereum-waffle'
 import { PromiseValue } from 'type-fest'
+import { ethers } from 'hardhat'
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 
 export const deployVoteRelationContract = async (
 	options: readonly string[],
@@ -10,24 +10,30 @@ export const deployVoteRelationContract = async (
 	readonly [
 		PromiseValue<ReturnType<typeof deployContract>>,
 		PromiseValue<ReturnType<typeof deployContract>>,
-		MockProvider,
+		SignerWithAddress['provider'],
 		number,
-		ReturnType<MockProvider['getWallets']>
+		readonly SignerWithAddress[]
 	]
 > => {
-	const provider = new MockProvider()
-	const wallets = provider.getWallets()
-	const voteEmitter = await deployContract(wallets[0], VoteEmitter)
-	const vote = await deployContract(wallets[0], Vote, [
-		'dummy-subject',
-		'dummy-body',
-		options,
-		'dummy-body-mime-type',
-		'dummy-option-mime-type',
-		voteEmitter.address,
-		votingBlock,
-		wallets[0].address,
-	])
-	const blockNumber = await provider.getBlockNumber()
-	return [vote, voteEmitter, provider, blockNumber, wallets]
+	const wallets = await ethers.getSigners()
+	const factory__VoteEmitter = await ethers.getContractFactory('VoteEmitter')
+	const voteEmitter = await factory__VoteEmitter.connect(wallets[0]).deploy()
+	await voteEmitter.deployTransaction.wait()
+	const factory__Vote = await ethers.getContractFactory('Vote')
+	const vote = await factory__Vote
+		.connect(wallets[0])
+		.deploy(
+			'dummy-subject',
+			'dummy-body',
+			options,
+			'dummy-body-mime-type',
+			'dummy-option-mime-type',
+			voteEmitter.address,
+			votingBlock,
+			wallets[0].address
+		)
+	await vote.deployTransaction.wait()
+
+	const blockNumber = await wallets[0].provider!.getBlockNumber()
+	return [vote, voteEmitter, wallets[0].provider, blockNumber, wallets]
 }

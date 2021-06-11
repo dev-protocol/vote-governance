@@ -6,7 +6,6 @@
 /* eslint-disable functional/prefer-readonly-type */
 
 import { expect } from 'chai'
-import { describe } from 'mocha'
 import sinon from 'sinon'
 import { BigNumber, Contract } from 'ethers'
 import { convertEventToVote } from '../../../src/format/data-format-details'

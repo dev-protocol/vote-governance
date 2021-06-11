@@ -4,7 +4,6 @@
 /* eslint-disable functional/no-expression-statement */
 
 import { expect } from 'chai'
-import { describe } from 'mocha'
 import { BigNumber } from 'ethers'
 import { sumTransferEventValue, calculateVote } from '../../../src/data-process'
 

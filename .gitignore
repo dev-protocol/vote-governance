@@ -73,3 +73,9 @@ dist
 
 # use yarn
 package-lock.json
+
+# output of hardhat
+artifacts
+artifacts-ovm
+cache
+cache-ovm

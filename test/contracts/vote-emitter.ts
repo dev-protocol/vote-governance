@@ -1,12 +1,14 @@
+/* eslint-disable functional/immutable-data */
+/* eslint-disable functional/no-conditional-statement */
 /* eslint-disable new-cap */
 /* eslint-disable functional/no-expression-statement */
 /* eslint-disable functional/functional-parameters */
 
 import { expect, use } from 'chai'
-import { describe } from 'mocha'
-import { deployContract, MockProvider, solidity } from 'ethereum-waffle'
-import VoteEmitter from '../../build/VoteEmitter.json'
+import { deployContract, solidity } from 'ethereum-waffle'
 import { PromiseValue } from 'type-fest'
+import { ethers } from 'hardhat'
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 
 use(solidity)
 
@@ -14,12 +16,13 @@ describe('VoteEmitter', () => {
 	const init = async (): Promise<
 		readonly [
 			PromiseValue<ReturnType<typeof deployContract>>,
-			ReturnType<MockProvider['getWallets']>
+			readonly SignerWithAddress[]
 		]
 	> => {
-		const provider = new MockProvider()
-		const wallets = provider.getWallets()
-		const voteEmitter = await deployContract(wallets[0], VoteEmitter)
+		const wallets = await ethers.getSigners()
+		const factory = await ethers.getContractFactory('VoteEmitter')
+		const voteEmitter = await factory.connect(wallets[0]).deploy()
+		await voteEmitter.deployTransaction.wait()
 		return [voteEmitter, wallets]
 	}
 
