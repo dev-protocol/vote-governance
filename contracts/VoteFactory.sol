@@ -21,17 +21,16 @@ contract VoteFactory {
 		string memory _optionsMimeType,
 		uint256 _votingBlock
 	) external {
-		Vote vote =
-			new Vote(
-				_subject,
-				_body,
-				_options,
-				_bodyMimeType,
-				_optionsMimeType,
-				voteEmitter,
-				_votingBlock,
-				msg.sender
-			);
+		Vote vote = new Vote(
+			_subject,
+			_body,
+			_options,
+			_bodyMimeType,
+			_optionsMimeType,
+			voteEmitter,
+			_votingBlock,
+			msg.sender
+		);
 		emit VoteCreate(msg.sender, address(vote));
 	}
 }

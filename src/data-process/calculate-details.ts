@@ -55,21 +55,21 @@ export const getAnalyzedDataByOptionIndex = (
 	})
 }
 
-export const analysisVoteData = (optionsCount: number) => (
-	voteData: VoteData
-): readonly AnalyzedVoteData[] => {
-	const optionIndexes = [...Array(optionsCount)].fill(0).map((_, i) => i)
-	return optionIndexes.map((optionIndex) => {
-		const percentile = voteData.percentiles[optionIndex]
-		return {
-			index: optionIndex,
-			rank: getRank(voteData.percentiles, percentile),
-			voteCount: voteData.value
-				.mul(BigNumber.from(percentile))
-				.div(BigNumber.from(100)),
-		} as AnalyzedVoteData
-	})
-}
+export const analysisVoteData =
+	(optionsCount: number) =>
+	(voteData: VoteData): readonly AnalyzedVoteData[] => {
+		const optionIndexes = [...Array(optionsCount)].fill(0).map((_, i) => i)
+		return optionIndexes.map((optionIndex) => {
+			const percentile = voteData.percentiles[optionIndex]
+			return {
+				index: optionIndex,
+				rank: getRank(voteData.percentiles, percentile),
+				voteCount: voteData.value
+					.mul(BigNumber.from(percentile))
+					.div(BigNumber.from(100)),
+			} as AnalyzedVoteData
+		})
+	}
 
 const getRank = (
 	percentiles: readonly number[],

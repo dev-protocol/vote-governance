@@ -39,13 +39,8 @@ describe('getVoteEvent', () => {
 		expect(events[1].args!.percentiles[1]).to.be.equal(80)
 	})
 	it('Only relevant events can be retrieved..', async () => {
-		const [
-			vote,
-			voteEmitter,
-			provider,
-			,
-			wallets,
-		] = await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
+		const [vote, voteEmitter, provider, , wallets] =
+			await deployVoteRelationContract([options0, options1], VOTING_BLOCK)
 		await vote.vote([10, 90])
 		await vote.connect(wallets[1]).vote([20, 80])
 		await voteEmitter.dispatch(wallets[1].address, [0, 0])
