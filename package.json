@@ -73,8 +73,5 @@
 	},
 	"peerDependencies": {
 		"ethers": "^5.1.0"
-	},
-	"resolutions": {
-		"@ethersproject/bignumber": "5.3.0"
 	}
 }
