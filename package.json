@@ -35,7 +35,7 @@
 	"license": "MPL-2.0",
 	"devDependencies": {
 		"@rollup/plugin-multi-entry": "4.0.0",
-		"@rollup/plugin-typescript": "8.2.1",
+		"@rollup/plugin-typescript": "8.2.3",
 		"@types/chai": "4.2.21",
 		"@types/dotenv": "8.2.0",
 		"@types/mocha": "8.2.3",
