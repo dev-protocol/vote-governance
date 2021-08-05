@@ -50,7 +50,7 @@
 		"eslint-config-xo-typescript": "0.43.0",
 		"eslint-plugin-functional": "3.5.0",
 		"ethereum-waffle": "3.4.0",
-		"ethers": "5.4.3",
+		"ethers": "5.4.4",
 		"husky": "7.0.1",
 		"mocha": "9.0.3",
 		"prettier": "2.3.2",
