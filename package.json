@@ -56,7 +56,7 @@
 		"prettier": "2.5.1",
 		"prettier-plugin-solidity": "1.0.0-beta.19",
 		"rimraf": "3.0.2",
-		"rollup": "2.67.0",
+		"rollup": "2.67.1",
 		"rollup-plugin-dts": "4.1.0",
 		"solhint": "3.3.6",
 		"ts-node": "10.4.0",
