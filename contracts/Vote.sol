@@ -2,7 +2,7 @@
 pragma solidity 0.7.6;
 pragma experimental ABIEncoderV2;
 
-import {IVoteEmitter} from "contracts/interface/IVoteEmitter.sol";
+import {IVoteEmitter} from "./interface/IVoteEmitter.sol";
 
 contract Vote {
 	struct Attributes {

@@ -2,7 +2,7 @@
 pragma solidity 0.7.6;
 pragma experimental ABIEncoderV2;
 
-import {Vote} from "contracts/Vote.sol";
+import {Vote} from "./Vote.sol";
 
 contract VoteFactory {
 	address public voteEmitter;
