@@ -68,7 +68,7 @@
 		"@openzeppelin/contracts": "3.4.2",
 		"@types/sinon": "10.0.13",
 		"p-retry": "^5.0.0",
-		"ramda": "0.28.0",
+		"ramda": "0.29.0",
 		"sinon": "15.0.3"
 	},
 	"peerDependencies": {
