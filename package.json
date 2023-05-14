@@ -66,7 +66,7 @@
 	"dependencies": {
 		"@devprotocol/util-ts": "2.2.1",
 		"@openzeppelin/contracts": "3.4.2",
-		"@types/sinon": "10.0.14",
+		"@types/sinon": "10.0.15",
 		"p-retry": "^5.0.0",
 		"ramda": "0.29.0",
 		"sinon": "15.0.4"
