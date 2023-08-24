@@ -67,7 +67,7 @@
 		"@devprotocol/util-ts": "2.2.1",
 		"@openzeppelin/contracts": "3.4.2",
 		"@types/sinon": "10.0.16",
-		"p-retry": "^5.0.0",
+		"p-retry": "^6.0.0",
 		"ramda": "0.29.0",
 		"sinon": "15.2.0"
 	},
