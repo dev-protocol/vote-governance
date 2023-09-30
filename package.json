@@ -60,7 +60,7 @@
 		"rollup-plugin-dts": "6.0.2",
 		"solhint": "3.4.1",
 		"ts-node": "10.9.1",
-		"type-fest": "4.3.2",
+		"type-fest": "4.3.3",
 		"typescript": "5.2.2"
 	},
 	"dependencies": {
