@@ -69,7 +69,7 @@
 		"@types/sinon": "10.0.20",
 		"p-retry": "^6.0.0",
 		"ramda": "0.29.1",
-		"sinon": "16.1.0"
+		"sinon": "16.1.1"
 	},
 	"peerDependencies": {
 		"ethers": "^5.1.0"
