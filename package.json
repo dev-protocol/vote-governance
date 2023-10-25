@@ -58,7 +58,7 @@
 		"rimraf": "5.0.5",
 		"rollup": "2.79.1",
 		"rollup-plugin-dts": "6.1.0",
-		"solhint": "3.4.1",
+		"solhint": "3.6.2",
 		"ts-node": "10.9.1",
 		"type-fest": "4.6.0",
 		"typescript": "5.2.2"
